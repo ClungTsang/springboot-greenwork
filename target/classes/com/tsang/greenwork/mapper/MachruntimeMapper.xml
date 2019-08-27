@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tsang.greenwork.mapper.MachruntimeMapper">
+  <resultMap id="BaseResultMap" type="com.tsang.greenwork.model.Machruntime">
+    <constructor>
+      <arg column="machineid" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="situation" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="nrgconsumption" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="frequency" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="updated" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="workshopid" javaType="java.lang.String" jdbcType="CHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    machineid, situation, nrgconsumption, frequency, updated, workshopid
+  </sql>
+  <select id="selectByExample" parameterType="com.tsang.greenwork.model.MachruntimeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from machruntime
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.tsang.greenwork.model.MachruntimeExample">
+    delete from machruntime
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tsang.greenwork.model.Machruntime">
+    insert into machruntime (machineid, situation, nrgconsumption, 
+      frequency, updated, workshopid
+      )
+    values (#{machineid,jdbcType=VARCHAR}, #{situation,jdbcType=CHAR}, #{nrgconsumption,jdbcType=VARCHAR}, 
+      #{frequency,jdbcType=VARCHAR}, #{updated,jdbcType=TIMESTAMP}, #{workshopid,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tsang.greenwork.model.Machruntime">
+    insert into machruntime
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="machineid != null">
+        machineid,
+      </if>
+      <if test="situation != null">
+        situation,
+      </if>
+      <if test="nrgconsumption != null">
+        nrgconsumption,
+      </if>
+      <if test="frequency != null">
+        frequency,
+      </if>
+        updated,
+      <if test="workshopid != null">
+        workshopid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="machineid != null">
+        #{machineid,jdbcType=VARCHAR},
+      </if>
+      <if test="situation != null">
+        #{situation,jdbcType=CHAR},
+      </if>
+      <if test="nrgconsumption != null">
+        #{nrgconsumption,jdbcType=VARCHAR},
+      </if>
+      <if test="frequency != null">
+        #{frequency,jdbcType=VARCHAR},
+      </if>
+      now(),
+      <if test="workshopid != null">
+        #{workshopid,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="countByExample" parameterType="com.tsang.greenwork.model.MachruntimeExample" resultType="java.lang.Integer">
+    select count(*) from machruntime
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="countByMachineid" resultType="java.lang.Integer">
+    SELECT
+	count( machineid )
+FROM
+	machruntime
+WHERE
+	machineid = #{machineid,jdbcType=VARCHAR}
+	AND situation = '1'
+	AND date_format( updated, '%y%m' ) = date_format( curdate( ), '%y%m' )
+ORDER BY
+	updated DESC
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+  select * from machruntime where machineid = #{record.machineid,jdbcType=VARCHAR}
+  <include refid="Base_Column_List"/>
+  from machruntime where machineid = #{machineid,jdbcType=VARCHAR}
+</select>
+  <select id="selectCurrentData" resultType="com.tsang.greenwork.model.Machruntime">
+    select * from machruntime  order by updated desc limit 42
+  </select>
+  <select id="selectLastData" resultType="com.tsang.greenwork.model.Machruntime">
+    select * from machruntime  order by updated desc limit 42,42
+  </select>
+  <select id="selectAllAvgDataWithWeekByMachineid" resultType="com.tsang.greenwork.model.Machruntime">
+    SELECT * FROM machruntime WHERE  YEARWEEK(date_format(updated,'%Y-%m-%d')) = YEARWEEK(now()) and machineid = #{record.machineid,jdbcType=VARCHAR} and situation = 1
+  </select>
+  <select id="selectAllAvgDataWithMonthByMachineid" resultType="com.tsang.greenwork.model.Machruntime">
+    select * from machruntime where date_format( updated, '%y%m' ) = date_format( curdate( ) , '%y%m' ) and machineid = #{record.machineid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectNewlestDataByMachineid" resultType="com.tsang.greenwork.model.Machruntime">
+    select * from machruntime where machineid = #{machineid,jdbcType=VARCHAR} order by updated desc limit 0,1
+  </select>
+  <select id="pageByMachineid" resultType="com.tsang.greenwork.model.Machruntime">
+    select (select DATE_FORMAT(updated,'%Y%m%D') months )as time ,
+count(machineid) as machineid from machruntime
+where machineid = #{machineid,jdbcType=VARCHAR}  group by (select DATE_FORMAT(updated,'%Y%m%D') months )
+  </select>
+  <select id="selectByAll" resultType="com.tsang.greenwork.model.Machruntime">
+    select * from machruntime
+  </select>
+  <select id="selectByMachineid" resultType="com.tsang.greenwork.model.Machruntime">
+    select * from machruntime where machineid = #{machineid,jdbcType=VARCHAR}
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update machruntime
+    <set>
+      <if test="record.machineid != null">
+        machineid = #{record.machineid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.situation != null">
+        situation = #{record.situation,jdbcType=CHAR},
+      </if>
+      <if test="record.nrgconsumption != null">
+        nrgconsumption = #{record.nrgconsumption,jdbcType=VARCHAR},
+      </if>
+      <if test="record.frequency != null">
+        frequency = #{record.frequency,jdbcType=VARCHAR},
+      </if>
+        updated = now(),
+      <if test="record.workshopid != null">
+        workshopid = #{record.workshopid,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update machruntime
+    set machineid = #{record.machineid,jdbcType=VARCHAR},
+      situation = #{record.situation,jdbcType=CHAR},
+      nrgconsumption = #{record.nrgconsumption,jdbcType=VARCHAR},
+      frequency = #{record.frequency,jdbcType=VARCHAR},
+      updated = #{record.updated,jdbcType=TIMESTAMP},
+      workshopid = #{record.workshopid,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tsang.greenwork.model.Machruntime">
+  update machruntime
+  <set>
+  <if test="situation != null">situation = #{situation,jdbcType=CHAR}, </if>
+  <if test="nrgconsumption != null">nrgconsumption = #{nrgconsumption,jdbcType=VARCHAR}, </if>
+  <if test="frequency != null">frequency = #{frequency,jdbcType=VARCHAR}, </if>
+  <if test="updated != null">updated = #{updated,jdbcType=TIMESTAMP}, </if>
+  <if test="workshopid != null">workshopid = #{workshopid,jdbcType=CHAR}, </if>
+</set>
+  where machineid = #{machineid,jdbcType=VARCHAR}
+</update>
+</mapper>

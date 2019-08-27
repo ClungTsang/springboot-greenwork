@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tsang.greenwork.mapper.AvgwsMapper">
+  <resultMap id="BaseResultMap" type="com.tsang.greenwork.model.Avgws">
+    <constructor>
+      <arg column="year1" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="month1" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="day1" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="hour1" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="avgpm" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="avgtemp" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="avghum" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    year1, month1, day1, hour1, avgpm, avgtemp, avghum
+  </sql>
+  <select id="selectByExample" parameterType="com.tsang.greenwork.model.AvgwsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from avgws
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.tsang.greenwork.model.AvgwsExample">
+    delete from avgws
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tsang.greenwork.model.Avgws">
+    insert into avgws (year1, month1, day1, 
+      hour1, avgpm, avgtemp, 
+      avghum)
+    values (#{year1,jdbcType=CHAR}, #{month1,jdbcType=VARCHAR}, #{day1,jdbcType=VARCHAR}, 
+      #{hour1,jdbcType=VARCHAR}, #{avgpm,jdbcType=VARCHAR}, #{avgtemp,jdbcType=VARCHAR}, 
+      #{avghum,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tsang.greenwork.model.Avgws">
+    insert into avgws
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="year1 != null">
+        year1,
+      </if>
+      <if test="month1 != null">
+        month1,
+      </if>
+      <if test="day1 != null">
+        day1,
+      </if>
+      <if test="hour1 != null">
+        hour1,
+      </if>
+      <if test="avgpm != null">
+        avgpm,
+      </if>
+      <if test="avgtemp != null">
+        avgtemp,
+      </if>
+      <if test="avghum != null">
+        avghum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="year1 != null">
+        #{year1,jdbcType=CHAR},
+      </if>
+      <if test="month1 != null">
+        #{month1,jdbcType=VARCHAR},
+      </if>
+      <if test="day1 != null">
+        #{day1,jdbcType=VARCHAR},
+      </if>
+      <if test="hour1 != null">
+        #{hour1,jdbcType=VARCHAR},
+      </if>
+      <if test="avgpm != null">
+        #{avgpm,jdbcType=VARCHAR},
+      </if>
+      <if test="avgtemp != null">
+        #{avgtemp,jdbcType=VARCHAR},
+      </if>
+      <if test="avghum != null">
+        #{avghum,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.tsang.greenwork.model.AvgwsExample" resultType="java.lang.Integer">
+    select count(*) from avgws
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+    <select id="selectAllAvgDataWithDayByWorkshopid" resultType="com.tsang.greenwork.model.Avgws">
+      select year(updated), MONTH(updated), DAY(updated),HOUR(updated),AVG(pm),AVG(temperature),AVG(humidity)
+from wsenvinfor where workshopid=#{workshopid,jdbcType=VARCHAR}
+group by year(updated), MONTH(updated), DAY(updated), HOUR(updated)
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+    update avgws
+    <set>
+      <if test="record.year1 != null">
+        year1 = #{record.year1,jdbcType=CHAR},
+      </if>
+      <if test="record.month1 != null">
+        month1 = #{record.month1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.day1 != null">
+        day1 = #{record.day1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hour1 != null">
+        hour1 = #{record.hour1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.avgpm != null">
+        avgpm = #{record.avgpm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.avgtemp != null">
+        avgtemp = #{record.avgtemp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.avghum != null">
+        avghum = #{record.avghum,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update avgws
+    set year1 = #{record.year1,jdbcType=CHAR},
+      month1 = #{record.month1,jdbcType=VARCHAR},
+      day1 = #{record.day1,jdbcType=VARCHAR},
+      hour1 = #{record.hour1,jdbcType=VARCHAR},
+      avgpm = #{record.avgpm,jdbcType=VARCHAR},
+      avgtemp = #{record.avgtemp,jdbcType=VARCHAR},
+      avghum = #{record.avghum,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>
