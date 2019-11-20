@@ -104,6 +104,7 @@ private static final Logger logger = LoggerFactory.getLogger(ServerChannelHandle
         this.threadRun(ctx,fullData);
         Thread.sleep(1000);
         this.threadRun(ctx,voltageData);
+        Thread.sleep(1000);
 
     }
 
