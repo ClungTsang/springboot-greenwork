@@ -15,6 +15,7 @@ com\tsang\greenwork\model\EnvequipExample$GeneratedCriteria.class
 com\tsang\greenwork\model\AvgmachExample$GeneratedCriteria.class
 com\tsang\greenwork\model\WsinforExample$GeneratedCriteria.class
 com\tsang\greenwork\model\Log.class
+com\tsang\greenwork\client\ClientChannelHandler$1Inner.class
 com\tsang\greenwork\model\UserExample$GeneratedCriteria.class
 com\tsang\greenwork\service\IEnvEquipService.class
 com\tsang\greenwork\server\NettyTcpServer.class
@@ -36,6 +37,7 @@ com\tsang\greenwork\controller\ElefeeController.class
 com\tsang\greenwork\model\WsinforExample$Criteria.class
 com\tsang\greenwork\model\Avgws.class
 com\tsang\greenwork\common\ResponseCode.class
+com\tsang\greenwork\server\ServerChannelHandler$1Inner.class
 com\tsang\greenwork\mapper\ElefeeMapper.class
 com\tsang\greenwork\service\impl\WsInforServiceImpl$1.class
 com\tsang\greenwork\mapper\WsenvinforMapper.class
@@ -50,6 +52,7 @@ com\tsang\greenwork\model\AvgwsExample$Criterion.class
 com\tsang\greenwork\model\ElefeeExample$Criteria.class
 com\tsang\greenwork\model\MachruntimeExample$Criteria.class
 com\tsang\greenwork\service\impl\WsEnvInforServiceImpl.class
+com\tsang\greenwork\server\Decoder\Decoder.class
 com\tsang\greenwork\client\NettyTcpClient.class
 com\tsang\greenwork\service\INumTransService.class
 com\tsang\greenwork\service\IWsInforService.class
@@ -60,7 +63,6 @@ com\tsang\greenwork\model\MachinforExample$GeneratedCriteria.class
 com\tsang\greenwork\service\INumToTcpNumService.class
 com\tsang\greenwork\model\EnvequipExample$Criteria.class
 com\tsang\greenwork\model\Machinfor.class
-com\tsang\greenwork\server\ServerChannelHandler$1OD1.class
 com\tsang\greenwork\mapper\StandardMapper.class
 com\tsang\greenwork\model\ElefeeExample.class
 com\tsang\greenwork\utils\HEXUtils.class
@@ -96,7 +98,6 @@ com\tsang\greenwork\controller\WSInfoController.class
 com\tsang\greenwork\model\MachinforExample$Criterion.class
 com\tsang\greenwork\service\impl\EnvEquipImpl.class
 com\tsang\greenwork\model\AvgmachExample$Criterion.class
-com\tsang\greenwork\server\Deocder\Decoder.class
 com\tsang\greenwork\controller\MachRuntimeController.class
 com\tsang\greenwork\model\Machruntime.class
 com\tsang\greenwork\server\Channelmap.class

@@ -1,10 +1,11 @@
 package com.tsang.greenwork.server;
 
-import com.tsang.greenwork.server.Deocder.Decoder;
+import com.tsang.greenwork.server.Decoder.Decoder;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.handler.codec.FixedLengthFrameDecoder;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,13 +30,11 @@ public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> 
         pipeline.addLast("idleStateHandler",
                 new IdleStateHandler(15, 0, 0, TimeUnit.MINUTES));
         pipeline.addLast(new Decoder());
-        // 设置定长字符串接收
-        pipeline.addLast(new FixedLengthFrameDecoder(90));
         //字符串编解码器
-        /*pipeline.addLast(
+        pipeline.addLast(
                 new StringDecoder(),
                 new StringEncoder()
-        );*/
+        );
         //自定义Handler
         pipeline.addLast("serverChannelHandler", serverChannelHandler);
     }

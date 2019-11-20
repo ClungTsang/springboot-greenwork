@@ -34,8 +34,6 @@ import java.util.concurrent.ConcurrentHashMap;
         //处理hadnler的工作线程，其实也就是处理IO读写 。线程数据默认为 CPU 核心数乘以2
         private EventLoopGroup worker = new NioEventLoopGroup();
 
-
-
         @Autowired
         ServerChannelInitializer serverChannelInitializer;
 

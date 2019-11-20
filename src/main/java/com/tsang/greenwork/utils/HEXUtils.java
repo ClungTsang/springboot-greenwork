@@ -1,12 +1,9 @@
 package com.tsang.greenwork.utils;
 
 import io.netty.buffer.ByteBuf;
-import org.junit.Test;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.Arrays;
 
 /**
  * Created by Lzbin、lantian on 2019-01-16.
@@ -190,8 +187,26 @@ public class HEXUtils {
         return b;
     }
 
-    @Test
-    public void test16StrToByteArrays(){
-        System.out.println(Arrays.toString(hexStringToByte("1226386482101542700")));
+    /**
+     * 将字节数组转换为16进制字符串
+     * @param bytes
+     * @return
+     */
+    public static String binaryToHexString(byte[] bytes) {
+        if (bytes == null || bytes.length == 0) {
+            return "";
+        }
+        String hexStr = "0123456789ABCDEF";
+        StringBuilder result = new StringBuilder("");
+        String hex = "";
+        for (byte b : bytes) {
+            hex = String.valueOf(hexStr.charAt((b & 0xF0) >> 4));
+            hex += String.valueOf(hexStr.charAt(b & 0x0F));
+            result.append(hex);
+            //result += hex + " ";//可加空格分割
+        }
+        return result.toString();
     }
+
+
 }

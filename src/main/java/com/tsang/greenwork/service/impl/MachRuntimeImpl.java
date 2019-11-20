@@ -1,12 +1,12 @@
 package com.tsang.greenwork.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.tsang.greenwork.mapper.AvgmachMapper;
 import com.tsang.greenwork.mapper.MachruntimeMapper;
 import com.tsang.greenwork.model.Avgmach;
 import com.tsang.greenwork.model.Machruntime;
 import com.tsang.greenwork.model.MachruntimeExample;
 import com.tsang.greenwork.service.IMachRuntimeService;
-import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;

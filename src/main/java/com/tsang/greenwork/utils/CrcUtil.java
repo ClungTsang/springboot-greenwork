@@ -1,6 +1,5 @@
 package com.tsang.greenwork.utils;
 
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Value;
 
 public class CrcUtil {

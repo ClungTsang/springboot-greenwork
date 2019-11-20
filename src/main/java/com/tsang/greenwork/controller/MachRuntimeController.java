@@ -1,10 +1,10 @@
 package com.tsang.greenwork.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.tsang.greenwork.common.ServerResponse;
 import com.tsang.greenwork.model.Machruntime;
 import com.tsang.greenwork.service.ILogService;
 import com.tsang.greenwork.service.IMachRuntimeService;
-import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -144,7 +144,7 @@ public class MachRuntimeController {
      */
     public JSONObject selectAllAvgDataWithDayByMachineid(@PathVariable String machineid){
         Map map = iMachRuntimeService.selectAllAvgDataWithDayByMachineid(machineid);
-        JSONObject jsonObject = JSONObject.fromObject(map);
+        JSONObject jsonObject = new JSONObject(map);
         return jsonObject;
 
     }
@@ -159,7 +159,7 @@ public class MachRuntimeController {
      */
     public JSONObject selectAllAvgDataWithWeekByMachineid(@PathVariable String machineid){
         Map map = iMachRuntimeService.selectAllAvgDataWithWeekByMachineid(machineid);
-        JSONObject jsonObject = JSONObject.fromObject(map);
+        JSONObject jsonObject = new JSONObject(map);
         return jsonObject;
     }
 
@@ -192,7 +192,7 @@ public class MachRuntimeController {
      */
     public JSONObject selectAllDataWithMonthByMachineid(@PathVariable String machineid){
         Map map = iMachRuntimeService.selectAllAvgDataWithMonthByMachineid(machineid);
-        JSONObject jsonObject = JSONObject.fromObject(map);
+        JSONObject jsonObject = new JSONObject(map);
         return jsonObject;
     }
 
@@ -206,7 +206,7 @@ public class MachRuntimeController {
      */
     public JSONObject pageByMachineid(@PathVariable String machineid){
         Map map = iMachRuntimeService.ableSelectByMachineid(machineid);
-        JSONObject jsonObject = JSONObject.fromObject(map);
+        JSONObject jsonObject = new JSONObject(map);
         return jsonObject;
     }
 

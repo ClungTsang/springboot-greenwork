@@ -4,7 +4,6 @@ package com.tsang.greenwork.client;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.handler.codec.FixedLengthFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
@@ -30,12 +29,12 @@ public class ClientChannelInitializer extends ChannelInitializer<SocketChannel> 
         //IdleStateHandler心跳机制,如果超时触发Handle中userEventTrigger()方法
         pipeline.addLast("idleStateHandler",
                 new IdleStateHandler(15, 0, 0, TimeUnit.MINUTES));
-       //字符串编解码器
-        //自定义Handler
-
-       pipeline.addLast(new StringDecoder(),
-               new StringEncoder()
+        //字符串编解码器
+        pipeline.addLast(
+                new StringDecoder(),
+                new StringEncoder()
         );
+        //自定义Handler
         pipeline.addLast("clientChannelHandler", clientChannelHandler);
     }
 }

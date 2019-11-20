@@ -1,12 +1,12 @@
 package com.tsang.greenwork.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.tsang.greenwork.mapper.AvgwsMapper;
 import com.tsang.greenwork.mapper.WsenvinforMapper;
 import com.tsang.greenwork.model.Avgws;
 import com.tsang.greenwork.model.Wsenvinfor;
 import com.tsang.greenwork.model.WsenvinforExample;
 import com.tsang.greenwork.service.IWsEnvInforSercice;
-import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;

@@ -20,26 +20,37 @@ import java.nio.ByteBuffer;
 public class EnvEquipController {
     @Autowired
     private IEnvEquipService iEnvEquipService;
+
     @Autowired
     private ILogService ilogService;
+
     @Autowired
     private Channelmap channelmap;
-    @Value("${DO.ws1data.read}")
-    private String ws1dataRead;
+
+    @Value("${DO.FullData.read}")
+    private String fullData;
+
     @Value("${DO.Voltage.read}")
-    private String ws2PmRead;
+    private String voltageDate;
+
     @Value("${DO.DO-1.open}")
     private String openFan;
+
     @Value("${DO.DO-1.close}")
     private String shutFan;
+
     @Value("${DO.DO-2.open}")
     private String openLight;
+
     @Value("${DO.DO-2.close}")
     private String shutLight;
+
     @Value("${DO.DO-3.open}")
     private String openWarn;
+
     @Value("${DO.DO-3.close}")
     private String shutWarn;
+
     @Value("${DO.Registration.read")
     private String openRegister;
 
@@ -179,8 +190,8 @@ public class EnvEquipController {
     @GetMapping("/auto")
     @ResponseBody
     public void autoCheckPm() throws InterruptedException {
-        byte[] byte1 = HEXUtils.hexStringToByte(ws2PmRead);
+        byte[] byte1 = HEXUtils.hexStringToByte(voltageDate);
         ByteBuffer buf1 = ByteBuffer.wrap(byte1);
-            channelmap.GetChannel().writeAndFlush(Unpooled.wrappedBuffer(buf1));
+        channelmap.GetChannel().writeAndFlush(Unpooled.wrappedBuffer(buf1));
         }
     }

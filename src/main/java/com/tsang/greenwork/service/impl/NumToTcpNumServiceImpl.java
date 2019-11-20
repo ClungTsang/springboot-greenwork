@@ -88,10 +88,13 @@ public class NumToTcpNumServiceImpl implements INumToTcpNumService {
 
                 // 查询上一次所有的数据
                 Machruntime machruntime1 = iMachRuntimeService.selectNewlestDataByMachineid(machruntime.getMachineid());
+
                     if(machruntime1!=null) {
+
                             //有上次的数据 则判断状态来插入
 
                             //这次传入值的开关状态
+
                             String situation = machruntime.getSituation();
                             if (situation.equals("1")) {
                                 //本身状态为1

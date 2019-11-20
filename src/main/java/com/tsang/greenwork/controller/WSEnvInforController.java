@@ -1,9 +1,9 @@
 package com.tsang.greenwork.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.tsang.greenwork.common.ServerResponse;
 import com.tsang.greenwork.model.Wsenvinfor;
 import com.tsang.greenwork.service.IWsEnvInforSercice;
-import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -126,7 +126,7 @@ public class WSEnvInforController {
      */
     public JSONObject selectAllAvgDataWithDayByWorkshopid(@PathVariable String workshopid){
         Map map = iWsEnvInforSercice.selectAllAvgDataWithDayByWorkshopid(workshopid);
-        JSONObject jsonObject = JSONObject.fromObject(map);
+        JSONObject jsonObject = new JSONObject(map);
         return jsonObject;
     }
 
@@ -140,7 +140,7 @@ public class WSEnvInforController {
      */
     public JSONObject selectAllAvgDataWithWeekByWorkshopid(@PathVariable String workshopid){
         Map map = iWsEnvInforSercice.selectAllAvgDataWithWeekByWorkshopid(workshopid);
-        JSONObject jsonObject = JSONObject.fromObject(map);
+        JSONObject jsonObject = new JSONObject(map);
         return jsonObject;
     }
 
@@ -155,7 +155,7 @@ public class WSEnvInforController {
      */
     public JSONObject selectAllAvgDataWithMonthByWorkshopid(@PathVariable String workshopid){
         Map map = iWsEnvInforSercice.selectAllAvgDataWithMonthByWorkshopid(workshopid);
-        JSONObject jsonObject = JSONObject.fromObject(map);
+        JSONObject jsonObject = new JSONObject(map);
         return jsonObject;
     }
     /**
@@ -168,7 +168,7 @@ public class WSEnvInforController {
      */
     public JSONObject ableSelectByWorkshopid(@PathVariable String workshopid){
         Map map = iWsEnvInforSercice.ableSelectByWorkshopid(workshopid);
-        JSONObject jsonObject = JSONObject.fromObject(map);
+        JSONObject jsonObject = new JSONObject(map);
         return jsonObject;
     }
 

@@ -9,13 +9,13 @@ import java.util.Set;
 @Service
 public class Channelmap {
 
-        private  static Channelmap Channelmap = null;
+        private  static com.tsang.greenwork.server.Channelmap Channelmap = null;
         private  static Set<Channel> set =new HashSet<>();
-        private  Channelmap(){
+        private Channelmap(){
         }
 
             //单例
-        public  static Channelmap newInstance() {
+        public  static com.tsang.greenwork.server.Channelmap newInstance() {
             if (Channelmap==null)
             {
                 Channelmap = newInstance();
