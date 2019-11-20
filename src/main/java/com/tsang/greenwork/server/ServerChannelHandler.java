@@ -99,9 +99,11 @@ private static final Logger logger = LoggerFactory.getLogger(ServerChannelHandle
         super.channelActive(ctx);
         log.info("tcp client " + getRemoteAddress(ctx) + " connect success");
         //往channel map中添加channel信息
-
+        NettyTcpServer.map.put(getIPString(ctx),ctx.channel());
         //发送指定数据
         this.threadRun(ctx,fullData);
+        Thread.sleep(1000);
+        this.threadRun(ctx,voltageData);
 
     }
 
@@ -124,17 +126,15 @@ private static final Logger logger = LoggerFactory.getLogger(ServerChannelHandle
                 while (true) {
                     ctx.channel().writeAndFlush(Unpooled.wrappedBuffer(byteBuffer));
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
             }
         }
-
         Thread thread = new Thread(new Inner());
         thread.start();
-
     }
 
     /**
