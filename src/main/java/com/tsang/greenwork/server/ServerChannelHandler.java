@@ -1,6 +1,6 @@
 package com.tsang.greenwork.server;
 
-import com.tsang.greenwork.service.INumToTcpNumService;
+import com.tsang.greenwork.service.IInsertDBService;
 import com.tsang.greenwork.utils.HEXUtils;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
@@ -21,8 +21,8 @@ import java.util.Arrays;
 
 /**
  * description:
- * author:tsag
- * date: 2018-11-28 15:49
+ * author:tsang
+ * date: 2019-11-20
  **/
 @Component
 @ChannelHandler.Sharable
@@ -30,7 +30,7 @@ import java.util.Arrays;
 public class ServerChannelHandler extends ChannelInboundHandlerAdapter {
 
     @Autowired
-    private INumToTcpNumService iNumToTcpNumService;
+    private IInsertDBService iNumToTcpNumService;
 
     @Value("${DO.FullData.read}")
     private String fullData;
@@ -59,9 +59,6 @@ public class ServerChannelHandler extends ChannelInboundHandlerAdapter {
 
 private static final Logger logger = LoggerFactory.getLogger(ServerChannelHandler.class);
 
-
-
-
     /**
      * 拿到传过来的msg数据，开始处理
      *
@@ -69,19 +66,15 @@ private static final Logger logger = LoggerFactory.getLogger(ServerChannelHandle
      * @param msg
      * @throws Exception
      */
-
-
-
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
-
-
         if(!"tcpwork001".equals(msg)){
-            String s = String.valueOf(msg);
-            byte[] bytes = s.getBytes(CharsetUtil.UTF_8);
-            String s1 = HEXUtils.bytesToHexString(bytes);
-            System.out.println("读取到的数据:"+s1);
+//            String s = String.valueOf(msg);
+//            byte[] bytes = s.getBytes(CharsetUtil.UTF_8);
+            String tcpData = HEXUtils.bytesToHexString(String.valueOf(msg).getBytes(CharsetUtil.UTF_8));
+//            System.out.println("读取到的数据:"+tcpData);
+            iNumToTcpNumService.dtuData_InsertDB(tcpData);
         }else{
             System.out.println("注册包:"+msg);
         }
@@ -97,15 +90,11 @@ private static final Logger logger = LoggerFactory.getLogger(ServerChannelHandle
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         super.channelActive(ctx);
-        log.info("tcp client " + getRemoteAddress(ctx) + " connect success");
+        logger.info("tcp client " + getRemoteAddress(ctx) + " connect success");
         //往channel map中添加channel信息
         NettyTcpServer.map.put(getIPString(ctx),ctx.channel());
         //发送指定数据
-        this.threadRun(ctx,fullData);
-        Thread.sleep(1000);
-        this.threadRun(ctx,voltageData);
-        Thread.sleep(1000);
-
+//        this.threadRun(ctx,fullData);
     }
 
 
@@ -127,7 +116,7 @@ private static final Logger logger = LoggerFactory.getLogger(ServerChannelHandle
                 while (true) {
                     ctx.channel().writeAndFlush(Unpooled.wrappedBuffer(byteBuffer));
                     try {
-                        Thread.sleep(2000);
+                        Thread.sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -163,7 +152,7 @@ private static final Logger logger = LoggerFactory.getLogger(ServerChannelHandle
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         super.exceptionCaught(ctx, cause);
         //发生异常，关闭连接
-        log.error("引擎 {} 的通道发生异常，即将断开连接", getRemoteAddress(ctx));
+        logger.error("引擎 {} 的通道发生异常，即将断开连接", getRemoteAddress(ctx));
         ctx.close();//再次建议close
     }
 
@@ -180,13 +169,13 @@ private static final Logger logger = LoggerFactory.getLogger(ServerChannelHandle
         if (evt instanceof IdleStateEvent) {
             IdleStateEvent event = (IdleStateEvent) evt;
             if (event.state() == IdleState.READER_IDLE) {
-                log.info("Client: " + socketString + " READER_IDLE 读超时");
+                logger.info("Client: " + socketString + " READER_IDLE 读超时");
                 ctx.disconnect();//断开
             } else if (event.state() == IdleState.WRITER_IDLE) {
-                log.info("Client: " + socketString + " WRITER_IDLE 写超时");
+                logger.info("Client: " + socketString + " WRITER_IDLE 写超时");
                 ctx.disconnect();
             } else if (event.state() == IdleState.ALL_IDLE) {
-                log.info("Client: " + socketString + " ALL_IDLE 总超时");
+                logger.info("Client: " + socketString + " ALL_IDLE 总超时");
                 ctx.disconnect();
             }
         }

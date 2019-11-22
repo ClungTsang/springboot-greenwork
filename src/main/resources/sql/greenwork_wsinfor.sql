@@ -1,9 +1,0 @@
-INSERT INTO greenwork.wsinfor (workshopid, workshopname, statuss) VALUES ('ws001', '一号车间', null);
-INSERT INTO greenwork.wsinfor (workshopid, workshopname, statuss) VALUES ('ws002', '二号车间', null);
-INSERT INTO greenwork.wsinfor (workshopid, workshopname, statuss) VALUES ('ws003', '三号车间', null);
-INSERT INTO greenwork.wsinfor (workshopid, workshopname, statuss) VALUES ('ws004', '四号车间', null);
-INSERT INTO greenwork.wsinfor (workshopid, workshopname, statuss) VALUES ('ws005', '五号车间', null);
-INSERT INTO greenwork.wsinfor (workshopid, workshopname, statuss) VALUES ('ws006', '六号车间', null);
-INSERT INTO greenwork.wsinfor (workshopid, workshopname, statuss) VALUES ('ws007', '七号车间', null);
-INSERT INTO greenwork.wsinfor (workshopid, workshopname, statuss) VALUES ('ws008', '八号车间', null);
-INSERT INTO greenwork.wsinfor (workshopid, workshopname, statuss) VALUES ('ws009', '九号车间', null);

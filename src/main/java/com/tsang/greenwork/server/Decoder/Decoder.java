@@ -11,7 +11,7 @@ public class Decoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
 
-        byte bByte;
+        byte temByte;
 //        System.out.println("数据进入decode..");
 //        System.out.println(byteBuf);
         //判断是否有数据
@@ -21,18 +21,18 @@ public class Decoder extends ByteToMessageDecoder {
             Integer flag = 0;
             byteBuf.readerIndex(0);
             for(;;) {
-                bByte = byteBuf.getByte(flag + 2);
+                temByte = byteBuf.getByte(flag + 2);
 //                System.out.println(bByte);
 //                System.out.println("接收到数据...");
                 //接收数据
-                if ((bByte == 0) || (bByte == 16)) {
+                if ((temByte == 0) || (temByte == 16)) {
                     //十进制  0：00    DO的输入 电压的输入 温湿度pm2.5的输入
                     //十进制 16：10    注册包输入
 //                    System.out.println("识别：输入的DO,电压,注册包......");
                     Integer integer = this.judgeData(flag, 8, byteBuf, list);
                     flag = integer;
                 }
-                else if (bByte == 2) {
+                else if (temByte == 2) {
                     //十进制 2：02 输出电压
 //                    System.out.println("识别：输出的电压......");
                     Integer integer = this.judgeData(flag, 7, byteBuf, list);
@@ -90,7 +90,7 @@ public class Decoder extends ByteToMessageDecoder {
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
         ctx.flush();
-        System.err.println("数据读取完毕");
+//        System.err.println("数据读取完毕");
     }
 }
 

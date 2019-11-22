@@ -1,10 +1,7 @@
 package com.tsang.greenwork.server;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.concurrent.Future;
@@ -57,15 +54,26 @@ import java.util.concurrent.ConcurrentHashMap;
         public ChannelFuture start() {
             //启动类
             ServerBootstrap serverBootstrap = new ServerBootstrap();
-            serverBootstrap.group(boss, worker)//组配置，初始化ServerBootstrap的线程组
-                    .channel(NioServerSocketChannel.class)///构造channel通道工厂//bossGroup的通道，只是负责连接
-                    .childHandler(serverChannelInitializer)//设置通道处理者ChannelHandler////workerGroup的处理器
-                    .option(ChannelOption.SO_BACKLOG, 1024)//socket参数，当服务器请求处理程全满时，用于临时存放已完成三次握手请求的队列的最大长度。如果未设置或所设置的值小于1，Java将使用默认值50。
-                    .childOption(ChannelOption.SO_KEEPALIVE, true);//启用心跳保活机制，tcp，默认2小时发一次心跳
+            //组配置，初始化ServerBootstrap的线程组
+            serverBootstrap.group(boss, worker)
+                    ///构造channel通道工厂//bossGroup的通道，只是负责连接
+                    .channel(NioServerSocketChannel.class)
+                    //设置缓冲区最小值 默认值 最大值
+                    .childOption(ChannelOption.RCVBUF_ALLOCATOR, new AdaptiveRecvByteBufAllocator(64, 1024, 1024*10))
+                    //设置通道处理者ChannelHandler//
+                    // workerGroup的处理器
+                    .childHandler(serverChannelInitializer)
+                    //socket参数，当服务器请求处理程全满时，用于临时存放已完成三次握手请求的队列的最大长度。如果未设置或所设置的值小于1，Java将使用默认值50。
+                    .option(ChannelOption.SO_BACKLOG, 1024)
+                    //启用心跳保活机制，tcp，默认2小时发一次心跳
+                    .childOption(ChannelOption.SO_KEEPALIVE, true);
             //Future：异步任务的生命周期，可用来获取任务结果
-            ChannelFuture channelFuture1 = serverBootstrap.bind(port).syncUninterruptibly();//绑定端口，开启监听，同步等待
+
+            //绑定端口，开启监听，同步等待
+            ChannelFuture channelFuture1 = serverBootstrap.bind(port).syncUninterruptibly();
             if (channelFuture1 != null && channelFuture1.isSuccess()) {
-                channel = channelFuture1.channel();//获取通道
+                //获取通道
+                channel = channelFuture1.channel();
                 log.info("Netty tcp server start success, port = {}", port);
             } else {
                 log.error("Netty tcp server start fail");

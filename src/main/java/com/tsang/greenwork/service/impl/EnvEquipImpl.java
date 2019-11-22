@@ -4,7 +4,7 @@ import com.tsang.greenwork.mapper.EnvequipMapper;
 import com.tsang.greenwork.model.Envequip;
 import com.tsang.greenwork.model.EnvequipExample;
 import com.tsang.greenwork.service.IEnvEquipService;
-import com.tsang.greenwork.service.INumToTcpNumService;
+import com.tsang.greenwork.service.IInsertDBService;
 import com.tsang.greenwork.utils.CrcUtil;
 import com.tsang.greenwork.utils.HEXUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class EnvEquipImpl implements IEnvEquipService {
     @Autowired
     private EnvequipMapper envequipMapper;
     @Autowired
-    INumToTcpNumService iNumToTcpNumService;
+    IInsertDBService iNumToTcpNumService;
     /**
      * 新增数据
      * @param record
