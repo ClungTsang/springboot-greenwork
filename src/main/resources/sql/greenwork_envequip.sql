@@ -1,0 +1,9 @@
+INSERT INTO greenwork.envequip (workshopid, warn, warnstatus, fan, fanstatus, light, lightstatus, fee) VALUES ('ws001', 'wa001', '2', 'fa001', '2', 'lg001', '2', null);
+INSERT INTO greenwork.envequip (workshopid, warn, warnstatus, fan, fanstatus, light, lightstatus, fee) VALUES ('ws002', 'wa002', '2', 'fa002', '2', 'lg002', '2', null);
+INSERT INTO greenwork.envequip (workshopid, warn, warnstatus, fan, fanstatus, light, lightstatus, fee) VALUES ('ws003', 'wa003', '2', 'fa003', '1', 'lg003', '2', null);
+INSERT INTO greenwork.envequip (workshopid, warn, warnstatus, fan, fanstatus, light, lightstatus, fee) VALUES ('ws004', 'wa004', '2', 'fa004', '1', 'lg004', '2', null);
+INSERT INTO greenwork.envequip (workshopid, warn, warnstatus, fan, fanstatus, light, lightstatus, fee) VALUES ('ws005', 'wa005', '2', 'fa005', '2', 'lg005', '1', null);
+INSERT INTO greenwork.envequip (workshopid, warn, warnstatus, fan, fanstatus, light, lightstatus, fee) VALUES ('ws006', 'wa006', '1', 'fa006', '2', 'lg006', '2', null);
+INSERT INTO greenwork.envequip (workshopid, warn, warnstatus, fan, fanstatus, light, lightstatus, fee) VALUES ('ws007', 'wa007', '2', 'fa007', '2', 'lg007', '2', null);
+INSERT INTO greenwork.envequip (workshopid, warn, warnstatus, fan, fanstatus, light, lightstatus, fee) VALUES ('ws008', 'wa008', '2', 'fa008', '2', 'lg008', '2', null);
+INSERT INTO greenwork.envequip (workshopid, warn, warnstatus, fan, fanstatus, light, lightstatus, fee) VALUES ('ws009', 'wa009', '2', 'fa009', '2', 'lg009', '2', null);
