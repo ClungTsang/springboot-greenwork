@@ -169,7 +169,7 @@ public class WsEnvInforServiceImpl implements IWsEnvInforSercice {
             double num3 = 0;
 
             for(Wsenvinfor data : wsenvinforData){
-                num1 += Double.parseDouble(data.getPm());
+                num1 += Double.parseDouble(data.getPm1());
                 num2 += Double.parseDouble(data.getTemperature());
                 num3 += Double.parseDouble(data.getHumidity());
             }

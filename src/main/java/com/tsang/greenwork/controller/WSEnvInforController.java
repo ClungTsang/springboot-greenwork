@@ -30,7 +30,7 @@ public class WSEnvInforController {
     /*
      * 新增环境信息（模拟数据）
      */
-    public ServerResponse insert(Wsenvinfor Wsenvinfor){
+    public ServerResponse insertSelective(Wsenvinfor Wsenvinfor){
         int insertFlagCount = iWsEnvInforSercice.insertSelective(Wsenvinfor);
         boolean insertFlag = insertFlagCount>0?true:false;
         if(insertFlag){

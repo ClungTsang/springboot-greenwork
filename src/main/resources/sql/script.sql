@@ -105,20 +105,23 @@ create table user
 )
     charset = utf8;
 
-create table wsenvinfor
+create table greenwork.wsenvinfor
 (
-    workshopid  char(5)     not null,
-    pm          varchar(10) null comment 'pm2.5',
-    temperature varchar(2)  null comment '温度',
-    humidity    varchar(2)  null comment '湿度',
-    ele         varchar(3)  null comment '电流',
-    signall     varchar(2)  null comment '信号',
-    fre         varchar(4)  null comment '频次',
-    nrg         varchar(4)  null comment '能耗',
-    updated     datetime    not null
+    workshopid  char(5)    not null,
+    temperature varchar(5) null comment '温度',
+    humidity    varchar(2) null comment '湿度',
+    light       varchar(5) null comment '光照强度',
+    pm1_0       varchar(5) null comment 'pm1_0',
+    pm2_5       varchar(5) null comment 'pm2.5',
+    pm10        varchar(5) null comment 'pm10',
+    ele         varchar(3) null comment '电流',
+    signall     varchar(2) null comment '信号',
+    fre         varchar(4) null comment '频次',
+    nrg         varchar(4) null comment '能耗',
+    updated     datetime   not null
 )
-    comment '车间环境信息表'
-    charset = ascii;
+    comment '车间环境信息表' charset = ascii;
+
 
 
 

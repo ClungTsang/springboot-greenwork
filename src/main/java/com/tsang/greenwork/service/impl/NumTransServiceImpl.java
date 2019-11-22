@@ -1,5 +1,6 @@
 package com.tsang.greenwork.service.impl;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import com.tsang.greenwork.mapper.WsinforMapper;
 import com.tsang.greenwork.model.Machruntime;
 import com.tsang.greenwork.model.Wsenvinfor;
@@ -11,6 +12,7 @@ import com.tsang.greenwork.utils.RandomNumUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -24,49 +26,78 @@ public class NumTransServiceImpl implements INumTransService {
     private WsinforMapper wsinforMapper;
 
     @Override
-    public String dtuData_Translate(String dtuData) {
+    public Map dtuDataTranslate(String dtuData) {
+
+        Map<String,Object> map = new HashMap<>();
         //根据判断前6个数字 来分析不同的接收数据
         String top6_dtuData =  dtuData.substring(0,6);
+//        System.out.println(top6_dtuData);
         if("110302".equals(top6_dtuData)){
             //pm2.5(光照当作pm2.5) 前三对为头消息 第四五对为16进制的光照强度 转为十进制为2.371v 最高可达3w
             // 返回值 11 03 02 09 43 3E 26
-            return "pm2.5";
+            String pm2_5HexData = HEXUtils.hexStr2Str(dtuData.substring(6, 10));
+            int pm2_5 = Integer.parseInt(pm2_5HexData) ;
+            map.put("pm2_5",pm2_5);
+            return map;
         }else if("110328".equals(top6_dtuData)){
             //注册包 返回值
             //11 03 28 77 73 30 30 31 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 3A 24
             //77 73 30 30 31代表ws001
-            return "注册包";
+            return null;
         }else if("010328".equals(top6_dtuData)){
             //010328
             //温湿度pm2.5 返回值
 
             //01 03 28 11 DF 1E 47 01 70 00 00 00 05 00 06 00 08 00 0B 00 0C 00 0A 00 0B 00 0C 00 0D 00 0E 00 0F 00 10 00 11 00 12 00 13 00 14 76 CC
             //11 DF为温度，1E 47为湿度，01 70光照，00 0B是pm2.5（00 08是pm1.0，00 0C是pm10，都有效）
-            String warmHexData = HEXUtils.hexStr2Str(dtuData.substring(6, 10));
-            String humHexData = HEXUtils.hexStr2Str(dtuData.substring(10,14));
-            String lightHexData = HEXUtils.hexStr2Str(dtuData.substring(14, 18));
-            String pm1_0HexData = HEXUtils.hexStr2Str(dtuData.substring(30, 34));
-            String pm2_5HexData = HEXUtils.hexStr2Str(dtuData.substring(34, 38));
-            String pm10HexData  = HEXUtils.hexStr2Str(dtuData.substring(38, 42));
+            Long temper = Long.parseLong(dtuData.substring(6, 10),16);
+            Long hum = Long.parseLong(dtuData.substring(10,14),16);
+            String pm1ST = null;
+            String pm25ST = null;
+            String pm10ST  = null;
+            String lightST = String.valueOf(Long.parseLong(dtuData.substring(18, 22),16));
+            if("BFBD".equals(dtuData.substring(22, 26))){
+                pm1ST  = this.hexStr2Str(dtuData,38,42);
+                pm25ST = this.hexStr2Str(dtuData,42,46);
+                pm10ST = this.hexStr2Str(dtuData,46,50);
+
+//                pm1ST = String.valueOf(Long.parseLong(dtuData.substring(38, 42),16));
+//                 pm25ST = String.valueOf(Long.parseLong(dtuData.substring(42, 46),16));
+//                 pm10ST  = String.valueOf(Long.parseLong(dtuData.substring(46, 50),16));
+            }else{
+                pm1ST  = this.hexStr2Str(dtuData,34,38);
+                pm25ST = this.hexStr2Str(dtuData,38,42);
+                pm10ST = this.hexStr2Str(dtuData,42,46);
+//                 pm1ST = String.valueOf(Long.parseLong(dtuData.substring(34, 38),16));
+//                 pm25ST = String.valueOf(Long.parseLong(dtuData.substring(38, 42),16));
+//                 pm10ST  = String.valueOf(Long.parseLong(dtuData.substring(42, 46),16));
+            }
 
             // 11 df (16进制) = (10机制) (4575-2000)/100 = 25.75 度
             // 1e 47 (16进制) = (10机制) (7807/100) = 78.07 %
-            int warm = (Integer.parseInt(warmHexData) - 2000) / 100 ;
-            int hum = Integer.parseInt(humHexData) / 100 ;
-            int light = Integer.parseInt(lightHexData) ;
-            int pm1_0 = Integer.parseInt(pm1_0HexData) ;
-            int pm2_5 = Integer.parseInt(pm2_5HexData) ;
-            int pm10  = Integer.parseInt(pm10HexData) ;
+            String temperST = String.valueOf(
+                    BigInteger.valueOf(temper)
+                    .subtract(BigInteger.valueOf(2000))
+                    .divide(BigInteger.valueOf(100)));
+            String humST = String.valueOf(
+                    BigInteger.valueOf(hum)
+                    .divide(BigInteger.valueOf(100)));
 
-            return "温湿度";
+            System.out.println(temperST+":"+humST+":"+lightST+":"+pm1ST+":"+pm25ST+":"+pm10ST);
+            Wsenvinfor wsenvinfor = new Wsenvinfor("ws001",temperST,humST,lightST,pm1ST,pm25ST,pm10ST);
+            map.put("wsenvinfor",wsenvinfor);
+            return map;
         }else{
-            return "不知道是什么鬼哦";
+            return null;
         }
 
     }
+    public String hexStr2Str(String dtuData , int arg1 , int arg2){
+        return String.valueOf(Long.parseLong(dtuData.substring(arg1, arg2),16));
+    }
 
     @Override
-    public Map<String, Object> simulation_Translate(String tcpNum) {
+    public Map<String, Object> simulationTranslate(String tcpNum) {
         Map<String, Object> map = new HashMap();
             //判断是属于什么设备
             String top5 = tcpNum.substring(0, 5);
@@ -84,7 +115,7 @@ public class NumTransServiceImpl implements INumTransService {
                 //ma 生产设备
                 String situation = tcpNum.substring(5, 6);
                 String nrgconsumption = tcpNum.substring(6, 7);
-                if (situation.equals("1")) {
+                if ("1".equals(situation)) {
                     //判断状态   situation    1:打开
 
                     Machruntime machruntime = new Machruntime(top5, situation, nrgconsumption, frequency);
@@ -144,9 +175,9 @@ public class NumTransServiceImpl implements INumTransService {
                 if (!ele.equals("00")) {
                     signall++;
                 }
-                Wsenvinfor wsenvinfor = new Wsenvinfor(top5, pm, temperature, humidity, ele, String.valueOf(signall));
-                map.put("wsenvinfor", wsenvinfor);
-                return map;
+//                Wsenvinfor wsenvinfor = new Wsenvinfor(top5, pm, temperature, humidity, ele, String.valueOf(signall));
+//                map.put("wsenvinfor", wsenvinfor);
+                return null;
 
             } return null;
         }

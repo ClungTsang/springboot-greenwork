@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 @Service
 public class WsInforServiceImpl implements IWsInforService {
@@ -96,8 +98,7 @@ public class WsInforServiceImpl implements IWsInforService {
             @Override
             public void run() {
                 List<Wsinfor> wsinfors = wsinforMapper.selectAll();
-                for (Wsinfor wsinfor:wsinfors
-                     ) {
+                for (Wsinfor wsinfor:wsinfors) {
                     wsinforMapper.updateUnfixStatus(wsinfor.getWorkshopid());
                 }
             }

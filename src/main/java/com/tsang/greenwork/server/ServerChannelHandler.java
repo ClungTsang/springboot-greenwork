@@ -68,13 +68,13 @@ private static final Logger logger = LoggerFactory.getLogger(ServerChannelHandle
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-
-        if(!"tcpwork001".equals(msg)){
-//            String s = String.valueOf(msg);
+        String registration = "tcpwork001";
+        if(!registration.equals(msg)){
 //            byte[] bytes = s.getBytes(CharsetUtil.UTF_8);
+            //字节数组转成16进制字符串
             String tcpData = HEXUtils.bytesToHexString(String.valueOf(msg).getBytes(CharsetUtil.UTF_8));
 //            System.out.println("读取到的数据:"+tcpData);
-            iNumToTcpNumService.dtuData_InsertDB(tcpData);
+            iNumToTcpNumService.dtuDataInsertDB(tcpData);
         }else{
             System.out.println("注册包:"+msg);
         }
@@ -94,7 +94,7 @@ private static final Logger logger = LoggerFactory.getLogger(ServerChannelHandle
         //往channel map中添加channel信息
         NettyTcpServer.map.put(getIPString(ctx),ctx.channel());
         //发送指定数据
-//        this.threadRun(ctx,fullData);
+        this.threadRun(ctx,fullData);
     }
 
 

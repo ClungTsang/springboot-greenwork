@@ -33,13 +33,13 @@ public class InsertDBServiceImpl implements IInsertDBService {
 
     @Override
     public ServerResponse simulation_InsertDB(String tcpNum){
-        Map<String,Object> map = iNumTransService.simulation_Translate(tcpNum);
+        Map<String,Object> map = iNumTransService.simulationTranslate(tcpNum);
         Set key = map.keySet();
         Iterator<String> it = key.iterator();
 
         while(it.hasNext()){
             String key1 = it.next();
-            if(key1 == "machruntime"){
+            if("machruntime".equals(key1)){
 
                 ServerResponse insert =null;
                 Machruntime machruntime =  (Machruntime)map.get(key1);
@@ -119,12 +119,12 @@ public class InsertDBServiceImpl implements IInsertDBService {
                         insert = ServerResponse.createBySuccessMessage(machruntime.getMachineid() + "点击设备第一次记录，无法检测状态");
                     }
                 return insert;
-            }else if(key1=="wsenvinfor"){
+            }else if("wsenvinfor".equals(key1)){
                 //wsenvinfor
                 Wsenvinfor wsenvinfor =  (Wsenvinfor)map.get(key1);
-                ServerResponse insert = wsEnvInforController.insert(wsenvinfor);
+                ServerResponse insert = wsEnvInforController.insertSelective(wsenvinfor);
                 return insert;
-            }else if(key1 == "envequip"){
+            }else if("envequip".equals(key1)){
                 //envequip
                 Envequip envequip =  (Envequip)map.get(key1);
                 ServerResponse update = envEquipController.update(envequip);
@@ -136,7 +136,17 @@ public class InsertDBServiceImpl implements IInsertDBService {
         return null;
     }
     @Override
-    public void dtuData_InsertDB(String tcpNum) {
-        System.out.println(iNumTransService.dtuData_Translate(tcpNum));
+    public ServerResponse dtuDataInsertDB(String tcpNum) {
+        Map<String,Object> map = iNumTransService.dtuDataTranslate(tcpNum);
+        Set key = map.keySet();
+        Iterator<String> it = key.iterator();
+
+        while(it.hasNext()) {
+            String key1 = it.next();
+            Wsenvinfor wsenvinfor =  (Wsenvinfor)map.get(key1);
+            ServerResponse insert = wsEnvInforController.insertSelective(wsenvinfor);
+            return insert;
+        }
+        return null;
     }
 }
