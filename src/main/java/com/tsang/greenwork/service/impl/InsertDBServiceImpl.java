@@ -1,5 +1,6 @@
 package com.tsang.greenwork.service.impl;
 
+import com.mysql.fabric.Server;
 import com.tsang.greenwork.common.ServerResponse;
 import com.tsang.greenwork.controller.EnvEquipController;
 import com.tsang.greenwork.controller.MachRuntimeController;
@@ -138,15 +139,20 @@ public class InsertDBServiceImpl implements IInsertDBService {
     @Override
     public ServerResponse dtuDataInsertDB(String tcpNum) {
         Map<String,Object> map = iNumTransService.dtuDataTranslate(tcpNum);
-        Set key = map.keySet();
-        Iterator<String> it = key.iterator();
+        if(map != null) {
 
-        while(it.hasNext()) {
-            String key1 = it.next();
-            Wsenvinfor wsenvinfor =  (Wsenvinfor)map.get(key1);
-            ServerResponse insert = wsEnvInforController.insertSelective(wsenvinfor);
-            return insert;
+            Set key = map.keySet();
+            Iterator<String> it = key.iterator();
+
+            while (it.hasNext()) {
+                String key1 = it.next();
+                Wsenvinfor wsenvinfor = (Wsenvinfor) map.get(key1);
+                ServerResponse insert = wsEnvInforController.insertSelective(wsenvinfor);
+                return insert;
+            }
+        }else{
+            return ServerResponse.createByErrorMessage("map为空");
         }
-        return null;
+        return ServerResponse.createBySuccessMessage("执行成功");
     }
 }

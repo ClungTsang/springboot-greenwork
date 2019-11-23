@@ -1,12 +1,15 @@
 package com.tsang.greenwork.controller;
 
+import com.tsang.greenwork.client.NettyTcpClient;
 import com.tsang.greenwork.common.ServerResponse;
 import com.tsang.greenwork.model.Envequip;
 import com.tsang.greenwork.server.Channelmap;
+import com.tsang.greenwork.server.NettyTcpServer;
 import com.tsang.greenwork.service.IEnvEquipService;
 import com.tsang.greenwork.service.ILogService;
 import com.tsang.greenwork.utils.HEXUtils;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelHandlerContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -181,7 +184,7 @@ public class EnvEquipController {
 
     @GetMapping
     @ResponseBody
-    public void changeEquip(String equipment){
+    public void changeEquip( String equipment){
         byte[] bytes = HEXUtils.hexStringToByte(equipment);
         ByteBuffer buf1 = ByteBuffer.wrap(bytes);
         channelmap.GetChannel().writeAndFlush(Unpooled.wrappedBuffer(buf1));

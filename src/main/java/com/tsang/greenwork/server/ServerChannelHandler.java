@@ -56,6 +56,8 @@ public class ServerChannelHandler extends ChannelInboundHandlerAdapter {
     @Value("${DO.DO-3.close}")
     private String shutWarn;
 
+    @Autowired
+    private Channelmap channelmap;
 
 private static final Logger logger = LoggerFactory.getLogger(ServerChannelHandler.class);
 
@@ -69,14 +71,16 @@ private static final Logger logger = LoggerFactory.getLogger(ServerChannelHandle
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         String registration = "tcpwork001";
-        if(!registration.equals(msg)){
-//            byte[] bytes = s.getBytes(CharsetUtil.UTF_8);
+        String DO = "110500";
+        if(registration.equals(msg)){
+            System.out.println("注册包:"+msg);
+        }
+        else if(DO.equals(String.valueOf(msg).substring(0,6))){
+            System.out.println("DO:"+msg);
+        }else if(!registration.equals(msg)){
             //字节数组转成16进制字符串
             String tcpData = HEXUtils.bytesToHexString(String.valueOf(msg).getBytes(CharsetUtil.UTF_8));
-//            System.out.println("读取到的数据:"+tcpData);
             iNumToTcpNumService.dtuDataInsertDB(tcpData);
-        }else{
-            System.out.println("注册包:"+msg);
         }
     }
 
@@ -92,7 +96,8 @@ private static final Logger logger = LoggerFactory.getLogger(ServerChannelHandle
         super.channelActive(ctx);
         logger.info("tcp client " + getRemoteAddress(ctx) + " connect success");
         //往channel map中添加channel信息
-        NettyTcpServer.map.put(getIPString(ctx),ctx.channel());
+//        NettyTcpServer.map.put(getIPString(ctx),ctx.channel());
+        channelmap.CreateChannel(ctx.channel());
         //发送指定数据
         this.threadRun(ctx,fullData);
     }
@@ -138,6 +143,7 @@ private static final Logger logger = LoggerFactory.getLogger(ServerChannelHandle
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         //删除Channel Map中的失效Client
         NettyTcpServer.map.remove(getIPString(ctx));
+//        channelmap.DeleteChannel(ctx.channel());
         ctx.close();
     }
 

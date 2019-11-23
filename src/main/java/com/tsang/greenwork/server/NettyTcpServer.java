@@ -59,7 +59,7 @@ import java.util.concurrent.ConcurrentHashMap;
                     ///构造channel通道工厂//bossGroup的通道，只是负责连接
                     .channel(NioServerSocketChannel.class)
                     //设置缓冲区最小值 默认值 最大值
-                    .childOption(ChannelOption.RCVBUF_ALLOCATOR, new AdaptiveRecvByteBufAllocator(64, 1024, 1024*10))
+//                    .childOption(ChannelOption.RCVBUF_ALLOCATOR, new AdaptiveRecvByteBufAllocator(128, 1024, 1024*10))
                     //设置通道处理者ChannelHandler//
                     // workerGroup的处理器
                     .childHandler(serverChannelInitializer)
