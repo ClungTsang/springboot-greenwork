@@ -42,6 +42,7 @@ netty:
   host: 127.0.0.1
 server:
   port: 8002
+#  port: 8003
   compression:
     enabled: true
   max-http-header-size: 10240

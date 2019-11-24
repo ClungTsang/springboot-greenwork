@@ -77,10 +77,12 @@ private static final Logger logger = LoggerFactory.getLogger(ServerChannelHandle
         }
         else if(DO.equals(String.valueOf(msg).substring(0,6))){
             System.out.println("DO:"+msg);
-        }else if(!registration.equals(msg)){
+        }
+        else if(!registration.equals(msg)){
             //字节数组转成16进制字符串
             String tcpData = HEXUtils.bytesToHexString(String.valueOf(msg).getBytes(CharsetUtil.UTF_8));
-            iNumToTcpNumService.dtuDataInsertDB(tcpData);
+            String lightStatus = iNumToTcpNumService.dtuDataInsertDB(tcpData);
+//            this.threadRun(ctx,lightStatus,0);
         }
     }
 
@@ -99,11 +101,11 @@ private static final Logger logger = LoggerFactory.getLogger(ServerChannelHandle
 //        NettyTcpServer.map.put(getIPString(ctx),ctx.channel());
         channelmap.CreateChannel(ctx.channel());
         //发送指定数据
-        this.threadRun(ctx,fullData);
+        this.threadRun(ctx,fullData,500);
     }
 
 
-    public void threadRun(ChannelHandlerContext ctx,String data){
+    public void threadRun(ChannelHandlerContext ctx,String data,long sleepTime){
         byte[] bytes ;
         if("110103000100141405".equals(data)){
             byte[] tmpByte = HEXUtils.hexStringToByte(data);
@@ -113,7 +115,7 @@ private static final Logger logger = LoggerFactory.getLogger(ServerChannelHandle
             bytes = HEXUtils.hexStringToByte(data);
         }
 
-        class Inner implements Runnable{
+        class sleepRunner implements Runnable{
 
             @Override
             public void run() {
@@ -121,14 +123,14 @@ private static final Logger logger = LoggerFactory.getLogger(ServerChannelHandle
                 while (true) {
                     ctx.channel().writeAndFlush(Unpooled.wrappedBuffer(byteBuffer));
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(sleepTime);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
             }
         }
-        Thread thread = new Thread(new Inner());
+        Thread thread = new Thread(new sleepRunner());
         thread.start();
     }
 

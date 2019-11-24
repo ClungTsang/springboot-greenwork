@@ -1,21 +1,18 @@
 package com.tsang.greenwork.service.impl;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 import com.tsang.greenwork.mapper.WsinforMapper;
 import com.tsang.greenwork.model.Machruntime;
 import com.tsang.greenwork.model.Wsenvinfor;
 import com.tsang.greenwork.model.Wsinfor;
 import com.tsang.greenwork.service.ILogService;
 import com.tsang.greenwork.service.INumTransService;
-import com.tsang.greenwork.utils.HEXUtils;
 import com.tsang.greenwork.utils.RandomNumUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.lang.model.element.NestingKind;
-import javax.print.DocFlavor;
 import java.math.BigInteger;
-import java.sql.DatabaseMetaData;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -28,13 +25,16 @@ public class NumTransServiceImpl implements INumTransService {
     @Autowired
     private WsinforMapper wsinforMapper;
 
+    private static final Logger logger = LoggerFactory.getLogger(NumTransServiceImpl.class);
+
     @Override
     public Map dtuDataTranslate(String dtuData) {
+
 
         Map<String,Object> map = new HashMap<>();
         //根据判断前6个数字 来分析不同的接收数据
         String top6_dtuData =  dtuData.substring(0,6);
-//        System.out.println(dtuData);
+        System.out.println(dtuData);
 
 //        System.out.println(top6_dtuData);
             if("110328".equals(top6_dtuData)){
@@ -49,7 +49,6 @@ public class NumTransServiceImpl implements INumTransService {
 
                 Long temper = null;
                 Long hum =null;
-
                 String temperST = null;
                 String humST = null;
                 String lightST =null;
@@ -92,6 +91,12 @@ public class NumTransServiceImpl implements INumTransService {
                     pm25ST = this.hexStr2Str(dtuData,42,46);
                     pm10ST = this.hexStr2Str(dtuData,46,50);
                 }
+                //当light 后面为 BFBD 则 除了light 全部再往后退2个字节
+                if(BFBD.equals(dtuData.substring(22,26))){
+                    pm1ST  = this.hexStr2Str(dtuData,42,46);
+                    pm25ST = this.hexStr2Str(dtuData,46,50);
+                    pm10ST = this.hexStr2Str(dtuData,50,54);
+                }
 
             }
             if(BFBD.equals(dtuData.substring(14,18))){
@@ -111,7 +116,7 @@ public class NumTransServiceImpl implements INumTransService {
                     BigInteger.valueOf(hum).divide(BigInteger.valueOf(100)));
 
 
-//            System.out.println(temperST+":"+humST+":"+lightST+":"+pm1ST+":"+pm25ST+":"+pm10ST);
+            System.out.println(temperST+":"+humST+":"+lightST+":"+pm1ST+":"+pm25ST+":"+pm10ST);
             Wsenvinfor wsenvinfor = new Wsenvinfor("ws001",temperST,humST,lightST,pm1ST,pm25ST,pm10ST);
             map.put("wsenvinfor",wsenvinfor);
             return map;

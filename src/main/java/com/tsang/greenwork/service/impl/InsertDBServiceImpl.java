@@ -1,6 +1,5 @@
 package com.tsang.greenwork.service.impl;
 
-import com.mysql.fabric.Server;
 import com.tsang.greenwork.common.ServerResponse;
 import com.tsang.greenwork.controller.EnvEquipController;
 import com.tsang.greenwork.controller.MachRuntimeController;
@@ -12,6 +11,7 @@ import com.tsang.greenwork.service.IMachRuntimeService;
 import com.tsang.greenwork.service.IInsertDBService;
 import com.tsang.greenwork.service.INumTransService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
@@ -31,6 +31,12 @@ public class InsertDBServiceImpl implements IInsertDBService {
     private INumTransService iNumTransService;
     @Autowired
     private IMachRuntimeService iMachRuntimeService;
+
+    @Value("${DO.DO-2.open}")
+    private String openLight;
+
+    @Value("${DO.DO-2.close}")
+    private String shutLight;
 
     @Override
     public ServerResponse simulation_InsertDB(String tcpNum){
@@ -137,22 +143,23 @@ public class InsertDBServiceImpl implements IInsertDBService {
         return null;
     }
     @Override
-    public ServerResponse dtuDataInsertDB(String tcpNum) {
+    public String dtuDataInsertDB(String tcpNum) {
         Map<String,Object> map = iNumTransService.dtuDataTranslate(tcpNum);
         if(map != null) {
-
-            Set key = map.keySet();
-            Iterator<String> it = key.iterator();
-
+            Set set = map.keySet();
+            Iterator<String> it = set.iterator();
             while (it.hasNext()) {
-                String key1 = it.next();
-                Wsenvinfor wsenvinfor = (Wsenvinfor) map.get(key1);
+                String key = it.next();
+                Wsenvinfor wsenvinfor = (Wsenvinfor) map.get(key);
+                Long judgeLight = Long.parseLong(wsenvinfor.getLight());
+                String lightStatus = shutLight;
+                if(judgeLight>3000){
+                    lightStatus = openLight;
+                }
                 ServerResponse insert = wsEnvInforController.insertSelective(wsenvinfor);
-                return insert;
+                return lightStatus;
             }
-        }else{
-            return ServerResponse.createByErrorMessage("map为空");
         }
-        return ServerResponse.createBySuccessMessage("执行成功");
+        return "empty";
     }
 }

@@ -11,7 +11,7 @@ public interface IInsertDBService {
     ServerResponse simulation_InsertDB(String tcpNum);
 
 
-    ServerResponse dtuDataInsertDB(String tcpNum);
+    String dtuDataInsertDB(String tcpNum);
 
 
 }
