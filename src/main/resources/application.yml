@@ -1,9 +1,3 @@
-
-#开发配置
-netty:
-  port: 2310
-  host: 127.0.0.1
----
 spring:
   datasource:
     #   数据源基本配置
@@ -42,12 +36,23 @@ spring:
     mode: html5
     servlet:
       content-type: text/html
----
+#开发配置
+netty:
+  port: 2310
+  host: 127.0.0.1
 server:
   port: 8002
   compression:
     enabled: true
   max-http-header-size: 10240
+
+#开启驼峰命名
+mybatis:
+  typeAliasesPackage: com.tsang.greenwork.model
+  mapperLocations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
 
 ---
 #DO-1:风扇

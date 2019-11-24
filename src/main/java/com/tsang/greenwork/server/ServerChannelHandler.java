@@ -159,6 +159,7 @@ private static final Logger logger = LoggerFactory.getLogger(ServerChannelHandle
         super.exceptionCaught(ctx, cause);
         //发生异常，关闭连接
         logger.error("引擎 {} 的通道发生异常，即将断开连接", getRemoteAddress(ctx));
+        NettyTcpServer.map.remove(getIPString(ctx));
         ctx.close();//再次建议close
     }
 

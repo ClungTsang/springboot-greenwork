@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.tsang.greenwork.mapper.AvgwsMapper;
 import com.tsang.greenwork.mapper.WsenvinforMapper;
 import com.tsang.greenwork.model.Avgws;
+import com.tsang.greenwork.model.Avgwss;
 import com.tsang.greenwork.model.Wsenvinfor;
 import com.tsang.greenwork.model.WsenvinforExample;
 import com.tsang.greenwork.service.IWsEnvInforSercice;
@@ -75,7 +76,8 @@ public class WsEnvInforServiceImpl implements IWsEnvInforSercice {
      */
     @Override
     public JSONObject selectAllAvgDataWithDayByWorkshopid(String workshopid) {
-        List<Avgws> avgwss = avgwsMapper.selectAllAvgDataWithDayByWorkshopid(workshopid);
+        List<Avgwss> avgwss = avgwsMapper.selectAllAvgDataWithDayByWorkshopid(workshopid);
+        System.out.println(avgwss);
         //现在时间
         Date date = new Date();
         SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -83,40 +85,46 @@ public class WsEnvInforServiceImpl implements IWsEnvInforSercice {
         String year = newDate.substring(0,4);
         String month = newDate.substring(5,7);
         String day = newDate.substring(8,10);
+        String month1 = null;
+        String day1 = null;
+        String hour1 = null;
 
         Map map = new HashMap();
         JSONObject json = new JSONObject();
-        for(Avgws avgws : avgwss){
+        for(Avgwss avgws : avgwss){
+            System.out.println(avgws);
             String year1 =avgws.getYear1();
 
-            String month1 = null;
+
+            month1 = avgws.getMonth1();
             if(avgws.getMonth1().length() ==1){
                 month1 = "0"+avgws.getMonth1();
-            }else{
-             month1 = avgws.getMonth1();
             }
 
-            String day1 = null;
+            day1 = avgws.getDay1();
             if(avgws.getDay1().length() ==1){
                 day1 = "0"+avgws.getDay1();
-            }else{
-             day1 = avgws.getDay1();
             }
 
-            String hour1 = null;
+            hour1 = avgws.getHour1();
             if(avgws.getHour1().length() ==1){
                 hour1 = "0"+avgws.getHour1();
-            }else{
-             hour1 = avgws.getHour1();
             }
+
             if(year.equals(year1) && month.equals(month1) && day.equals(day1)){
-                String avgpm = avgws.getAvgpm();
-                String avgtemp = avgws.getAvgtemp();
-                String avghum = avgws.getAvghum();
+                String avg_temp = avgws.getAvgtemp();
+                String avg_hum = avgws.getAvghum();
+                String avg_light = avgws.getAvglight();
+                String avg_pm1_0 = avgws.getAvgpm1();
+                String avg_pm2_5 = avgws.getAvgpm25();
+                String avg_pm10 = avgws.getAvgpm10();
                 map.put("日期",year1+"-"+month1+"-"+day1+" "+hour1);
-                map.put("平均PM2.5",avgpm);
-                map.put("平均温度",avgtemp);
-                map.put("平均湿度",avghum);
+                map.put("平均PM1.0",avg_pm1_0);
+                map.put("平均PM2.5",avg_pm2_5);
+                map.put("平均PM10",avg_pm10);
+                map.put("平均光照",avg_light);
+                map.put("平均温度",avg_temp);
+                map.put("平均湿度",avg_hum);
                 json.put(year1+month1+day1+hour1,map);
             }
         }
@@ -165,21 +173,33 @@ public class WsEnvInforServiceImpl implements IWsEnvInforSercice {
         for(String day : key){
             List<Wsenvinfor> wsenvinforData = stringMultiValueMap.get(day);
             double num1 = 0;
+            double num25 = 0;
+            double num10 = 0;
             double num2 = 0;
             double num3 = 0;
+            double num4 = 0;
 
             for(Wsenvinfor data : wsenvinforData){
                 num1 += Double.parseDouble(data.getPm1());
+                num25 += Double.parseDouble(data.getPm25());
+                num10 += Double.parseDouble(data.getPm10());
                 num2 += Double.parseDouble(data.getTemperature());
                 num3 += Double.parseDouble(data.getHumidity());
+                num4 += Double.parseDouble(data.getLight());
             }
-            double avgPm = num1/wsenvinforData.size();
+            double avgPm1 = num1/wsenvinforData.size();
+            double avgPm25 = num1/wsenvinforData.size();
+            double avgPm10 = num1/wsenvinforData.size();
             double avgTemp = num2/wsenvinforData.size();
             double avgHum = num3/wsenvinforData.size();
+            double getLight = num4/wsenvinforData.size();
             map.put("日",day);
-            map.put("平均PM2.5",avgPm);
+            map.put("平均PM1",avgPm1);
+            map.put("平均PM2.5",avgPm25);
+            map.put("平均PM10",avgPm10);
             map.put("平均温度",avgTemp);
             map.put("平均湿度",avgHum);
+            map.put("平均光照",getLight);
             json.put(day,map);
         }
         return json;
