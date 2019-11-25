@@ -77,7 +77,7 @@ public class WsEnvInforServiceImpl implements IWsEnvInforSercice {
     @Override
     public JSONObject selectAllAvgDataWithDayByWorkshopid(String workshopid) {
         List<Avgwss> avgwss = avgwsMapper.selectAllAvgDataWithDayByWorkshopid(workshopid);
-        System.out.println(avgwss);
+//        System.out.println(avgwss);
         //现在时间
         Date date = new Date();
         SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -85,14 +85,16 @@ public class WsEnvInforServiceImpl implements IWsEnvInforSercice {
         String year = newDate.substring(0,4);
         String month = newDate.substring(5,7);
         String day = newDate.substring(8,10);
-        String month1 = null;
-        String day1 = null;
-        String hour1 = null;
 
-        Map map = new HashMap();
+
         JSONObject json = new JSONObject();
         for(Avgwss avgws : avgwss){
-            System.out.println(avgws);
+            Map map = new HashMap();
+
+            String month1 = null;
+            String day1 = null;
+            String hour1 = null;
+
             String year1 =avgws.getYear1();
 
 
@@ -110,7 +112,7 @@ public class WsEnvInforServiceImpl implements IWsEnvInforSercice {
             if(avgws.getHour1().length() ==1){
                 hour1 = "0"+avgws.getHour1();
             }
-
+            System.out.println(hour1);
             if(year.equals(year1) && month.equals(month1) && day.equals(day1)){
                 String avg_temp = avgws.getAvgtemp();
                 String avg_hum = avgws.getAvghum();
@@ -128,6 +130,7 @@ public class WsEnvInforServiceImpl implements IWsEnvInforSercice {
                 json.put(year1+month1+day1+hour1,map);
             }
         }
+//        System.out.println(json);
         return json;
     }
 

@@ -34,7 +34,7 @@ public class NumTransServiceImpl implements INumTransService {
         Map<String,Object> map = new HashMap<>();
         //根据判断前6个数字 来分析不同的接收数据
         String top6_dtuData =  dtuData.substring(0,6);
-        System.out.println(dtuData);
+//        System.out.println(dtuData);
 
 //        System.out.println(top6_dtuData);
             if("110328".equals(top6_dtuData)){
@@ -116,7 +116,7 @@ public class NumTransServiceImpl implements INumTransService {
                     BigInteger.valueOf(hum).divide(BigInteger.valueOf(100)));
 
 
-            System.out.println(temperST+":"+humST+":"+lightST+":"+pm1ST+":"+pm25ST+":"+pm10ST);
+//            System.out.println(temperST+":"+humST+":"+lightST+":"+pm1ST+":"+pm25ST+":"+pm10ST);
             Wsenvinfor wsenvinfor = new Wsenvinfor("ws001",temperST,humST,lightST,pm1ST,pm25ST,pm10ST);
             map.put("wsenvinfor",wsenvinfor);
             return map;

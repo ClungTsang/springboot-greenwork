@@ -143,9 +143,9 @@ public class MachRuntimeController {
      * 查询当日能耗平均值
      */
     public JSONObject selectAllAvgDataWithDayByMachineid(@PathVariable String machineid){
-        Map map = iMachRuntimeService.selectAllAvgDataWithDayByMachineid(machineid);
-        JSONObject jsonObject = new JSONObject(map);
-        return jsonObject;
+        JSONObject map = iMachRuntimeService.selectAllAvgDataWithDayByMachineid(machineid);
+//        JSONObject jsonObject = new JSONObject(map);
+        return map;
 
     }
 

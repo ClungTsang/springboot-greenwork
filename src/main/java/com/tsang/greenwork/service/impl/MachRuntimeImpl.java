@@ -83,31 +83,28 @@ public class MachRuntimeImpl implements IMachRuntimeService {
         String year = newDate.substring(0,4);
         String month = newDate.substring(5,7);
         String day = newDate.substring(8,10);
-
-        Map map = new HashMap();
         JSONObject json = new JSONObject();
         for(Avgmach avgmach : avgmachs){
+            Map map = new HashMap();
             String year1 =avgmach.getYear1();
 
             String month1 = null;
+            month1 = avgmach.getMonth1();
             if(avgmach.getMonth1().length() ==1){
                 month1 = "0"+avgmach.getMonth1();
-            }else{
-                month1 = avgmach.getMonth1();
             }
 
+
             String day1 = null;
+            day1 = avgmach.getDay1();
             if(avgmach.getDay1().length() ==1){
                 day1 = "0"+avgmach.getDay1();
-            }else{
-                day1 = avgmach.getDay1();
             }
 
             String hour1 = null;
+            hour1 = avgmach.getHour1();
             if(avgmach.getHour1().length() ==1){
                 hour1 = "0"+avgmach.getHour1();
-            }else{
-                hour1 = avgmach.getHour1();
             }
             if(year.equals(year1) && month.equals(month1) && day.equals(day1)){
                 String avgNrg = avgmach.getAvgnrg();

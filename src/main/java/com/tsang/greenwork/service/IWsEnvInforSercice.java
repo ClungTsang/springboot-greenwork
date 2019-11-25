@@ -1,5 +1,6 @@
 package com.tsang.greenwork.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.tsang.greenwork.model.Wsenvinfor;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public interface IWsEnvInforSercice {
      * 获取当日的所有数据
      * @return
      */
-    Map selectAllAvgDataWithDayByWorkshopid(String workshopid);
+    JSONObject selectAllAvgDataWithDayByWorkshopid(String workshopid);
 
     /**
      * 获取当周的所有数据

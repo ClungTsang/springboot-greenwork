@@ -125,9 +125,9 @@ public class WSEnvInforController {
      * 查询当日能耗平均值
      */
     public JSONObject selectAllAvgDataWithDayByWorkshopid(@PathVariable String workshopid){
-        Map map = iWsEnvInforSercice.selectAllAvgDataWithDayByWorkshopid(workshopid);
+        JSONObject map = iWsEnvInforSercice.selectAllAvgDataWithDayByWorkshopid(workshopid);
         JSONObject jsonObject = new JSONObject(map);
-        return jsonObject;
+        return map;
     }
 
     /**

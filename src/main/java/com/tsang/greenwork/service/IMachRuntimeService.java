@@ -1,6 +1,7 @@
 package com.tsang.greenwork.service;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.tsang.greenwork.model.Machruntime;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public interface IMachRuntimeService {
      * 获取当日的所有数据
      * @return
      */
-    Map selectAllAvgDataWithDayByMachineid(String machineid);
+    JSONObject selectAllAvgDataWithDayByMachineid(String machineid);
 
     /**
      * 获取当周的所有数据
