@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping
 @CrossOrigin(origins = "*", maxAge = 3600)  //跨域请求
 public class StandardController {
@@ -20,14 +20,11 @@ public class StandardController {
     private IStandardService iStandardService;
 
     /**
+     * 修改标准表
      * @param standard 标准表
      * @return status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @PostMapping("/standard/update")
-    /*
-     * 修改标准表
-     */
     public ServerResponse updateByPrimaryKeySelective(Standard standard){
         int updateFlagCount = iStandardService.update(standard);
         boolean updateFlag = updateFlagCount>0?true:false;
@@ -40,13 +37,10 @@ public class StandardController {
 
 
     /**
+     * 查询全部
      * @return status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @GetMapping("/standard/selectAll")
-    /*
-     * 查询全部
-     */
     public ServerResponse selectAll(){
         List<Standard> standards = iStandardService.selectByAll();
         if(standards!=null){
@@ -57,14 +51,11 @@ public class StandardController {
     }
 
     /**
+     * 根据name单查
      * @param name 姓名
      * @return status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @GetMapping("/standard/selectByName/{name}")
-    /*
-     * 根据name单查
-     */
     public ServerResponse selectByName(@PathVariable  String name){
         Standard standard = iStandardService.selectById(name);
         if(standard!=null){

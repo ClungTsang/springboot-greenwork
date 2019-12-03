@@ -36,6 +36,22 @@ public interface IElefeeService {
     Elefee selectByRange(String range);
 
     /**
+     * 更新缓存
+     * @param range
+     * @return
+     */
+    Elefee updateRangeData(String range);
+
+    /**
+     * 清除缓存
+     * @param range
+     * @return
+     */
+    Elefee deleteRangeData(String range);
+
+
+
+    /**
      * 全查
      * @return
      */

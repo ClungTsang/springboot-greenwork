@@ -19,7 +19,7 @@ public class EnvEquipImpl implements IEnvEquipService {
     @Autowired
     private EnvequipMapper envequipMapper;
     @Autowired
-    IInsertDBService iNumToTcpNumService;
+    private IInsertDBService iNumToTcpNumService;
     /**
      * 新增数据
      * @param record

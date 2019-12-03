@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping
 @CrossOrigin(origins = "*", maxAge = 3600)  //跨域请求
 public class MachInforController {
@@ -24,15 +24,12 @@ public class MachInforController {
 
 
     /**
+     * 添加设备信息
      * @param machinfor 设备信息
      * @param bindingResult 不用管
      * @return
      */
-    @ResponseBody
     @GetMapping("/machInfor/insert/{machineid}/{machinemodel}/{buyingtime}/{productivetime}/{workshopid}/{latitude}/{longitude}")
-    /*
-     * 添加设备信息
-     */
     //BindingResult bindingResult  检测传入值是否符合规范
     public ServerResponse insert(Machinfor machinfor, BindingResult bindingResult){
         String workshopid = machinfor.getWorkshopid();
@@ -62,14 +59,11 @@ public class MachInforController {
 
 
     /**
+     * 删除设备信息
      * @param machineid 设备id
      * @return  status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @GetMapping("/machInfor/delete")
-    /*
-     * 删除设备信息
-     */
     public ServerResponse delete(
             @RequestParam("machineid")  String machineid
     ){
@@ -85,14 +79,11 @@ public class MachInforController {
 
 
     /**
+     * 修改设备信息
      * @param machinfor 修改对象内容
      * @return  status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @PostMapping("/machInfor/updateInfor")
-    /*
-     * 修改设备信息
-     */
     public ServerResponse updateInfo(
             Machinfor machinfor, BindingResult bindingResult
     ){
@@ -129,26 +120,21 @@ public class MachInforController {
     }
 
     /**
+     * 查询全部设备
      * @return status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @GetMapping("/machInfor/selectByAll")
-    /*
-     * 查询全部设备
-     */
     public  ServerResponse selectByAll(){
         return ServerResponse.createBySuccess("查询成功", iMachiInforService.selectByAll());
     }
 
     /**
+     * 根据车间id全查询
      * @param workshopid 车间id
      * @return status-0成功-1失败 msg信息 data数据
      */
     @ResponseBody
     @GetMapping("/machInfor/selectAllByWorkshopid")
-    /*
-     * 根据车间id全查询
-     */
     public ServerResponse selectAllByWorkshopid(
             @RequestParam("workshopid") String workshopid
     ){
@@ -157,14 +143,11 @@ public class MachInforController {
 
 
     /**
+     * 根据设备id单查询
      * @param machineid 设备id
      * @return status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @GetMapping("/machInfor/selectByMachineid")
-    /*
-     * 根据设备id单查询
-     */
     public ServerResponse selectByMachineId(
             @RequestParam("machineid") String machineid
     ){

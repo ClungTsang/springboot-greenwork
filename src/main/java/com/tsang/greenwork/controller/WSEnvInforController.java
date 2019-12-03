@@ -5,14 +5,13 @@ import com.tsang.greenwork.common.ServerResponse;
 import com.tsang.greenwork.model.Wsenvinfor;
 import com.tsang.greenwork.service.IWsEnvInforSercice;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 
-@Controller
+@RestController
 @RequestMapping
 @CrossOrigin(origins = "*", maxAge = 3600)  //跨域请求
 public class WSEnvInforController {
@@ -22,14 +21,11 @@ public class WSEnvInforController {
 
 
     /**
+     * 新增环境信息（模拟数据）
      * @param Wsenvinfor  生产车间环境信息
      * @return  status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @GetMapping("/wsenvInfor/insert")
-    /*
-     * 新增环境信息（模拟数据）
-     */
     public ServerResponse insertSelective(Wsenvinfor Wsenvinfor){
         int insertFlagCount = iWsEnvInforSercice.insertSelective(Wsenvinfor);
         boolean insertFlag = insertFlagCount>0?true:false;
@@ -42,13 +38,10 @@ public class WSEnvInforController {
 
 
     /**
+     * 查询所有车间的最新环境数据
      * @return status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @GetMapping("/wsenvInfor/selectCurrentData")
-    /*
-     * 查询所有车间的最新环境数据
-     */
     public ServerResponse selectCurrentData(){
         List<Wsenvinfor> wsenvinfors = iWsEnvInforSercice.selectCurrentData();
         if(wsenvinfors!=null) {
@@ -60,14 +53,11 @@ public class WSEnvInforController {
 
 
     /**
+     * 根据车间id查询最新车间环境
      * @param workshopid  生产车间id
      * @return status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @GetMapping("/wsenvInfor/selectCurrentDataByWorkshopid/{workshopid}")
-    /*
-     * 根据车间id查询最新车间环境
-     */
     public ServerResponse selectCurrentDataByWorkshopid(@PathVariable  String workshopid){
         Wsenvinfor wsenvinfor = iWsEnvInforSercice.selectCurrentDataByWorkshopid(workshopid);
         if(wsenvinfor!=null) {
@@ -79,13 +69,10 @@ public class WSEnvInforController {
 
 
     /**
+     * 查询全部环境设备
      * @return status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @GetMapping("/wsenvInfor/selectByAll")
-    /*
-     * 查询全部环境设备
-     */
     public  ServerResponse selectByAll(){
         List<Wsenvinfor> wsenvinfors = iWsEnvInforSercice.selectByAll();
         if(wsenvinfors.isEmpty()){
@@ -96,14 +83,11 @@ public class WSEnvInforController {
     }
 
     /**
+     * 根据车间id查询所有的环境信息
      * @param workshopid 生产车间id
      * @return status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @GetMapping("/wsenvInfor/selectByWorkshopid/{workshopid}")
-    /*
-     * 根据车间id查询所有的环境信息
-     */
     public ServerResponse selectByPrimaryId(
             @PathVariable String workshopid
     ){
@@ -117,13 +101,10 @@ public class WSEnvInforController {
 
 
     /**
+     * 查询当日能耗平均值
      * @return status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @GetMapping("/wsenvInfor/selectAllAvgDataWithDayByWorkshopid/{workshopid}")
-    /*
-     * 查询当日能耗平均值
-     */
     public JSONObject selectAllAvgDataWithDayByWorkshopid(@PathVariable String workshopid){
         JSONObject map = iWsEnvInforSercice.selectAllAvgDataWithDayByWorkshopid(workshopid);
         JSONObject jsonObject = new JSONObject(map);
@@ -131,13 +112,10 @@ public class WSEnvInforController {
     }
 
     /**
+     * 根据车间id查询当天的所属设备运行情况
      * @return status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @GetMapping("/wsenvInfor/selectAllAvgDataWithWeekByWorkshopid/{workshopid}")
-    /*
-     * 根据车间id查询当天的所属设备运行情况
-     */
     public JSONObject selectAllAvgDataWithWeekByWorkshopid(@PathVariable String workshopid){
         Map map = iWsEnvInforSercice.selectAllAvgDataWithWeekByWorkshopid(workshopid);
         JSONObject jsonObject = new JSONObject(map);
@@ -146,26 +124,21 @@ public class WSEnvInforController {
 
 
     /**
+     * 查询当月的所有设备运行情况
      * @return status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @GetMapping("/wsenvInfor/selectAllAvgDataWithMonthByWorkshopid/{workshopid}")
-    /*
-     * 查询当月的所有设备运行情况
-     */
     public JSONObject selectAllAvgDataWithMonthByWorkshopid(@PathVariable String workshopid){
         Map map = iWsEnvInforSercice.selectAllAvgDataWithMonthByWorkshopid(workshopid);
         JSONObject jsonObject = new JSONObject(map);
         return jsonObject;
     }
+
     /**
+     * 指定车间id 全部可查的
      * @return status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @GetMapping("/wsenvInfor/ableSelectByWorkshopid/{workshopid}")
-    /*
-     * 指定车间id 全部可查的
-     */
     public JSONObject ableSelectByWorkshopid(@PathVariable String workshopid){
         Map map = iWsEnvInforSercice.ableSelectByWorkshopid(workshopid);
         JSONObject jsonObject = new JSONObject(map);
@@ -173,13 +146,10 @@ public class WSEnvInforController {
     }
 
     /**
+     * 指定车间 指定日期
      * @return status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @GetMapping("/wsenvInfor/selectByWorkshopidWithDate/{workshopid}/{targetDate}")
-    /*
-     * 指定车间 指定日期
-     */
     public List selectByWorkshopidWithDate(
             @PathVariable String workshopid,
             @PathVariable String targetDate

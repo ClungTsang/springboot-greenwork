@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping
 @CrossOrigin(origins = "*", maxAge = 3600)  //跨域请求
 public class WSInfoController {
@@ -24,14 +24,11 @@ public class WSInfoController {
     private IUserService iUserService;
 
     /**
+     * 新增车间信息
      * @param wsinfor 生产设备id
      * @return status-0成功-1失败，msg
      */
-    @ResponseBody
     @PostMapping("/wsinfor/insert")
-    /*
-     * 新增车间信息
-     */
     public ServerResponse insert(Wsinfor wsinfor){
         Wsinfor wsinfor1 = iWsInforService.selectByPrimaryKey(wsinfor.getWorkshopid());
         if(wsinfor1 == null){
@@ -51,14 +48,11 @@ public class WSInfoController {
 
 
     /**
+     * 删除车间id
      * @param workshopid 生产车间id
      * @return status-0成功-1失败，msg
      */
-    @ResponseBody
     @GetMapping("/wsinfor/delete/{workshopid}")
-    /*
-     * 删除车间id
-     */
     public ServerResponse delete(
             @PathVariable String workshopid
     ){
@@ -79,14 +73,11 @@ public class WSInfoController {
     }
 
     /**
+     * 更改车间信息
      * @param wsinfor 生产设备对象
      * @return status-0成功-1失败，msg
      */
-    @ResponseBody
     @PostMapping("/wsinfor/update")
-    /*
-     * 更改车间信息
-     */
     public ServerResponse update(Wsinfor wsinfor){
         int insertFlagCount = iWsInforService.update(wsinfor);
         boolean insertFlag = insertFlagCount>0?true:false;
@@ -100,13 +91,10 @@ public class WSInfoController {
 
 
     /**
+     * 查询全部车间
      * @return status-0成功-1失败，msg
      */
-    @ResponseBody
     @GetMapping("/wsinfor/selectAll")
-    /**
-     * 查询全部车间
-     */
     public ServerResponse selectAll(
     ){
         List<Wsinfor> wsinfors = iWsInforService.selectAll();
@@ -118,14 +106,11 @@ public class WSInfoController {
     }
 
     /**
+     * 根据车间id查询
      * @param workshopid 生产车间id
      * @return status-0成功-1失败，msg
      */
-    @ResponseBody
     @GetMapping("/wsinfor/selectByid/{workshopid}")
-    /**
-     * 根据车间id查询
-     */
     public ServerResponse selectById(
             @PathVariable String workshopid
     ){
@@ -140,8 +125,11 @@ public class WSInfoController {
 
     /**
      * 修复车间状态
+     * @param telephone 电话号码
+     * @param workshopid  车间id
+     * @param status 车间状态
+     * @return
      */
-    @ResponseBody
     @GetMapping("/wsinfor/updateFixStatus/{telephone}/{workshopid}/{status}")
     public ServerResponse updateFixStatus(
             @PathVariable String telephone,

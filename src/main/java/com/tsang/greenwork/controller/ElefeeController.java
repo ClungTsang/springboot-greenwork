@@ -4,12 +4,17 @@ import com.tsang.greenwork.common.ServerResponse;
 import com.tsang.greenwork.model.Elefee;
 import com.tsang.greenwork.service.IElefeeService;
 import com.tsang.greenwork.service.ILogService;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+
+@RestController
 @RequestMapping
+@Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)  //跨域请求
 public class ElefeeController {
     @Autowired
@@ -17,11 +22,14 @@ public class ElefeeController {
     @Autowired
     private ILogService iLogService;
 
-    @ResponseBody
-    @PostMapping("/elefee/insert")
+    private static final Logger logger = LoggerFactory.getLogger(ElefeeController.class);
+
     /**
      * 新增电费价格表
+     * @param elefee 表
+     * @return
      */
+    @PostMapping("/elefee/insert")
     public ServerResponse insertElefee(Elefee elefee){
         int insertFlagCount = iElefeeService.insertElefee(elefee);
         boolean insertFlag = insertFlagCount>0?true:false;
@@ -33,14 +41,11 @@ public class ElefeeController {
     }
 
     /**
+     * 删除电费价格表
      * @param Range 峰值
      * @return  status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @GetMapping("/elefee/delete/{Range}")
-    /*
-     * 删除电费价格表
-     */
     public ServerResponse delete(
             @PathVariable String Range
     ){
@@ -56,14 +61,11 @@ public class ElefeeController {
 
 
     /**
+     * 修改电费标准表
      * @param elefee 表
      * @return status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @PostMapping("/elefee/update")
-    /*
-     * 修改电费标准表
-     */
     public ServerResponse updateByPrimaryKeySelective(Elefee elefee){
         int updateFlagCount = iElefeeService.updateElefee(elefee);
         boolean updateFlag = updateFlagCount>0?true:false;
@@ -75,32 +77,47 @@ public class ElefeeController {
     }
 
     /**
+     * 查询全部
      * @return status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @GetMapping("/elefee/selectAll")
-    /*
-     * 查询全部
-     */
-    public  ServerResponse selectAll(){
+    public ServerResponse selectAll(){
         return ServerResponse.createBySuccess("查询成功", iElefeeService.selectAll());
     }
 
     /**
+     * 根据峰值单查
      * @param Range 峰值
      * @return status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @GetMapping("/elefee/selectByRange/{Range}")
-    /*
-     * 根据峰值单查
-     */
     public ServerResponse selectByRange(
             @PathVariable String Range
     ){
         return ServerResponse.createBySuccess("查询成功",iElefeeService.selectByRange(Range));
     }
 
+    /**
+     * 更新峰值单查
+     * @param Range 峰值
+     * @return status-0成功-1失败 msg信息 data数据
+     */
+    @GetMapping("/elefee/updateRangeData/{Range}")
+    public ServerResponse updateRangeData(
+            @PathVariable String Range
+    ){
+        return ServerResponse.createBySuccess("查询成功",iElefeeService.updateRangeData(Range));
+    }
 
-
+    /**
+     * 删除峰值单查
+     * @param Range 峰值
+     * @return status-0成功-1失败 msg信息 data数据
+     */
+    @GetMapping("/elefee/deleteRangeData/{Range}")
+    public ServerResponse deleteRangeData(
+            @PathVariable String Range
+    ){
+        return ServerResponse.createBySuccess("查询成功",iElefeeService.deleteRangeData(Range));
+    }
 }

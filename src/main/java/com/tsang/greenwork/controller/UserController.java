@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping
 @CrossOrigin(origins = "*", maxAge = 3600)  //跨域请求
 public class UserController {
@@ -27,13 +27,10 @@ public class UserController {
 
 
     /**
+     * 注册用户
      * @return status-0成功-1失败，msg
      */
-    @ResponseBody
     @GetMapping("/user/register/{telephone}/{username}/{account}/{password}/{phonemac}")
-    /*
-     * 注册用户
-     */
     public ServerResponse checkAccount(
             @PathVariable String telephone,
             @PathVariable String username,
@@ -67,14 +64,11 @@ public class UserController {
 
 
     /**
+     * 删除用户
      * @param telephone 电话号码
      * @return status-0成功-1失败，msg
      */
-    @ResponseBody
     @GetMapping("/user/delete")
-    /*
-     * 删除用户
-     */
     public ServerResponse deleteAccount(
             @RequestParam("telephone")  String telephone
     ){
@@ -97,14 +91,11 @@ public class UserController {
     }
 
     /**
+     * 修改用户
      * @param user 修改对象内容
      * @return status-0成功-1失败，msg
      */
-    @ResponseBody
     @PostMapping("/user/updateInfor")
-    /*
-     * 修改用户
-     */
     public ServerResponse updateInfor(User user){
         System.out.println(user.getWorkshopid());
         int updateFlagCount = iUserService.updateByPrimaryKeySelective(user);
@@ -121,7 +112,7 @@ public class UserController {
 
     /**
      *
-     *
+     * 审核请求 同时设置该用户为车间的负责人
      * @param currentTelephone 操作者手机号码
      * @param workshopid 车间id
      * @param machineid 设备id
@@ -129,11 +120,7 @@ public class UserController {
      * @param checked 审核情况 ： 通过审核/不通过审核
      * @return status-0成功-1失败，msg
      */
-    @ResponseBody
     @GetMapping("/user/updateCheck/{currentTelephone}/{machineid}/{telephone}/{checked}/{workshopid}")
-    /*
-     * 审核请求 同时设置该用户为车间的负责人
-     */
     public ServerResponse updateCheck(
             @PathVariable  String currentTelephone,
             @PathVariable  String machineid,
@@ -214,10 +201,10 @@ public class UserController {
             }
         }
     }
+
     /**
      * @return status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @GetMapping("/user/selectByAll")
     public  ServerResponse selectByAll(){
         return ServerResponse.createBySuccess("查询所有信息成功", iUserService.selectByAll());
@@ -225,14 +212,11 @@ public class UserController {
 
 
     /**
+     *  在user表中 查询审核情况
      * @param checked 0:未审核/1:通过审核/2:不通过审核/
      * @return status-0成功-1失败，msg
      */
-    @ResponseBody
     @GetMapping("/user/selectByCheck/{checked}")
-    /*
-     *  在user表中 查询审核情况
-     */
     public ServerResponse selectByCheck(
             @PathVariable String checked
     ){
@@ -254,14 +238,11 @@ public class UserController {
 
 
     /**
+     * 根据手机号单查询用户
      * @param telephone 电话号码
      * @return status-0成功-1失败，msg
      */
-    @ResponseBody
     @GetMapping("/user/selectById/{telephone}")
-    /*
-     * 根据手机号单查询用户
-     */
     public ServerResponse selectByPrimaryId(
             @PathVariable String telephone
     ){
@@ -282,14 +263,11 @@ public class UserController {
     }
 
     /**
+     * 签到操作
      * @param telephone 电话号码
      * @return status-0成功-1失败，msg
      */
-    @ResponseBody
     @GetMapping("/user/checkIn/{telephone}")
-    /*
-     * 签到操作
-     */
     public ServerResponse updateCheckIn(
             @PathVariable String telephone
     ){

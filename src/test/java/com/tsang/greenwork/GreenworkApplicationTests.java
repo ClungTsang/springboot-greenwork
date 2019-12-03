@@ -1,28 +1,32 @@
 package com.tsang.greenwork;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBootTest
+@RunWith(SpringRunner.class)
 public class GreenworkApplicationTests {
+
 
     @Test
     public void test(){
-
-        Atest a =  new Atest(1);
-        Atest b =  new Atest(3);
-        System.out.println(a.add(b));
-
-
-    }
-    class  Atest {
-        private int x;
-
-        Atest(int x){
-            this.x = x;
+        int input = 0;
+        if(input%4==0||"0".equals(input)){
+            System.out.println("output:true");
+        }else{
+            System.out.println("output:false");
         }
-        int add(Atest b){
-            return this.x + b.x;
+    }
+
+    @Test
+    public void test01(){
+        int input = 0;
+        if(input%4==0||"0".equals(input)){
+            System.out.println("output:true");
+        }else{
+            System.out.println("output:false");
         }
     }
 }

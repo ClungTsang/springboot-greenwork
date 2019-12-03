@@ -31,13 +31,13 @@ public class LoginController {
     }
 
     /**
+     * 用户登录方法
      * @param telephone 手机号
      * @param password 密码
      * @return status-0成功-1失败，msg
      */
     @PostMapping("/user/login")
     @ResponseBody
-    /** 用户登录方法*/
     public ServerResponse login(
             @RequestParam("telephone") String telephone,
             @RequestParam("password") String password
@@ -64,13 +64,12 @@ public class LoginController {
 
     }
     /**
-     *
+     * 用户退出登录
      * @param telephone 手机号
      * @return status-0成功-1失败，msg
      */
     @ResponseBody
     @GetMapping(value = "/user/exit")
-    /** 用户退出登录*/
     public ServerResponse Exit(
             @RequestParam("telephone") String telephone
     ) {

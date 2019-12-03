@@ -1,23 +1,19 @@
 package com.tsang.greenwork.controller;
 
-import com.tsang.greenwork.client.NettyTcpClient;
 import com.tsang.greenwork.common.ServerResponse;
 import com.tsang.greenwork.model.Envequip;
 import com.tsang.greenwork.server.Channelmap;
-import com.tsang.greenwork.server.NettyTcpServer;
 import com.tsang.greenwork.service.IEnvEquipService;
 import com.tsang.greenwork.service.ILogService;
 import com.tsang.greenwork.utils.HEXUtils;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelHandlerContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.ByteBuffer;
 
-@Controller
+@RestController
 @RequestMapping
 @CrossOrigin(origins = "*", maxAge = 3600)  //跨域请求
 public class EnvEquipController {
@@ -58,12 +54,11 @@ public class EnvEquipController {
     private String openRegister;
 
     /**
+     * 新增环境设备
      * @param envequip 监控设备id
      * @return status-0成功-1失败，msg
      */
-    @ResponseBody
     @PostMapping("/envEquip/insert")
-    /** 新增环境设备*/
     public ServerResponse insert(Envequip envequip){
             int insertFlagCount = iEnvEquipService.insertSelective(envequip);
             boolean insertFlag = insertFlagCount>0?true:false;
@@ -77,12 +72,11 @@ public class EnvEquipController {
 
 
     /**
+     * 删除环境设备
      * @param workshopid 监控设备 id
      * @return status-0成功-1失败，msg
      */
-    @ResponseBody
     @GetMapping("/envEquip/delete/{workshopid}")
-    /** 删除环境设备*/
     public ServerResponse delete(
             @PathVariable  String workshopid
     ){
@@ -101,9 +95,7 @@ public class EnvEquipController {
      * @param envequip 监控设备对象
      * @return status-0成功-1失败，msg
      */
-    @ResponseBody
     @PostMapping("/envEquip/update")
-    /** 修改环境设备信息*/
     public ServerResponse update(
             Envequip envequip
     ){
@@ -116,22 +108,20 @@ public class EnvEquipController {
                 }
     }
     /**
+     * 查询全部环境信息
      * @return status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @GetMapping("/envEquip/selectByAll")
-    /** 查询全部环境信息*/
     public  ServerResponse selectByAll(){
         return ServerResponse.createBySuccess("查询成功", iEnvEquipService.selectByAll());
     }
 
     /**
+     * 根据生产id单查询环境设备
      * @param workshopid 生产车间
      * @return  status-0成功-1失败 msg信息 data数据
      */
-    @ResponseBody
     @GetMapping("/envEquip/selectByWorkshopid/{workshopid}")
-    /*     * 根据生产id单查询环境设备*/
     public ServerResponse selectByWorkshopid(
             @PathVariable String workshopid
     ){
@@ -148,7 +138,6 @@ public class EnvEquipController {
      * @param envequip 车间id 设备id 设备状态
      * @return
      */
-    @ResponseBody
     @PostMapping("/envEquip/updateEnvequipByWorkshopid")
     public ServerResponse updateEnvequipByWorkshopid(Envequip envequip){
         int updateFlagCount = iEnvEquipService.updateByPrimaryKeySelective(envequip);
@@ -183,7 +172,6 @@ public class EnvEquipController {
     }
 
     @GetMapping
-    @ResponseBody
     public void changeEquip( String equipment){
         byte[] bytes = HEXUtils.hexStringToByte(equipment);
         ByteBuffer buf1 = ByteBuffer.wrap(bytes);
@@ -191,7 +179,6 @@ public class EnvEquipController {
     }
 
     @GetMapping("/auto")
-    @ResponseBody
     public void autoCheckPm() throws InterruptedException {
         byte[] byte1 = HEXUtils.hexStringToByte(voltageDate);
         ByteBuffer buf1 = ByteBuffer.wrap(byte1);
