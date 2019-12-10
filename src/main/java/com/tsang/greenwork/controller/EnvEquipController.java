@@ -7,6 +7,10 @@ import com.tsang.greenwork.service.IEnvEquipService;
 import com.tsang.greenwork.service.ILogService;
 import com.tsang.greenwork.utils.HEXUtils;
 import io.netty.buffer.Unpooled;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +19,8 @@ import java.nio.ByteBuffer;
 
 @RestController
 @RequestMapping
-@CrossOrigin(origins = "*", maxAge = 3600)  //跨域请求
+@Api(tags = "警报设备管理接口")
+@CrossOrigin(origins = "*", maxAge = 3600) //跨域请求
 public class EnvEquipController {
     @Autowired
     private IEnvEquipService iEnvEquipService;
@@ -59,6 +64,17 @@ public class EnvEquipController {
      * @return status-0成功-1失败，msg
      */
     @PostMapping("/envEquip/insert")
+    @ApiOperation("新增环境设备")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "workshopid", value = "车间id",dataType = "String",paramType = "query",defaultValue = "ws001",required = true),
+            @ApiImplicitParam(name = "warn", value = "警报", dataType = "String",paramType = "query",defaultValue = "wa001"),
+            @ApiImplicitParam(name = "warnstatus", value = "警报状态",dataType = "String", paramType = "query",defaultValue = "2"),
+            @ApiImplicitParam(name = "fan", value = "风扇", dataType = "String",paramType = "query",defaultValue = "fa001"),
+            @ApiImplicitParam(name = "fanstatus", value = "风扇状态", dataType = "String",paramType = "query",defaultValue = "2"),
+            @ApiImplicitParam(name = "light", value = "光照",dataType = "String", paramType = "query",defaultValue = "lg001"),
+            @ApiImplicitParam(name = "lightstatus", value = "光照状态", dataType = "String",paramType = "query",defaultValue = "2"),
+            @ApiImplicitParam(name = "fee", value = "电费", dataType = "String",paramType = "query",defaultValue = "fee")
+    })
     public ServerResponse insert(Envequip envequip){
             int insertFlagCount = iEnvEquipService.insertSelective(envequip);
             boolean insertFlag = insertFlagCount>0?true:false;
@@ -77,8 +93,13 @@ public class EnvEquipController {
      * @return status-0成功-1失败，msg
      */
     @GetMapping("/envEquip/delete/{workshopid}")
+    @ApiOperation("删除环境设备")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "workshopid", value = "车间id", paramType = "path",dataType = "String",defaultValue = "ws001",required = true)
+    })
     public ServerResponse delete(
-            @PathVariable  String workshopid
+            //从URL中取值
+            @PathVariable String workshopid
     ){
             int deleteFlagCount = iEnvEquipService.deleteByPrimaryKey(workshopid);
             boolean deleteFlag = deleteFlagCount > 0 ? true : false;
@@ -96,9 +117,15 @@ public class EnvEquipController {
      * @return status-0成功-1失败，msg
      */
     @PostMapping("/envEquip/update")
-    public ServerResponse update(
-            Envequip envequip
-    ){
+    @ApiOperation("修改环境设备")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "workshopid", value = "车间id", paramType = "query",dataType = "String", defaultValue = "ws001",required = true),
+            @ApiImplicitParam(name = "warn", value = "警报",paramType = "query",dataType = "String", defaultValue = "wa001"),
+            @ApiImplicitParam(name = "fan", value = "风扇",paramType = "query",dataType = "String", defaultValue = "fa001"),
+            @ApiImplicitParam(name = "light", value = "光照",paramType = "query",dataType = "String", defaultValue = "lg001"),
+            @ApiImplicitParam(name = "fee", value = "电费",paramType = "query",dataType = "String", defaultValue = "fee")
+    })
+    public ServerResponse update(Envequip envequip){
                 int updateFlagCount = iEnvEquipService.updateByPrimaryKeySelective(envequip);
                 boolean updateFlag = updateFlagCount > 0 ? true:false;
                 if(updateFlag){
@@ -112,6 +139,7 @@ public class EnvEquipController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/envEquip/selectByAll")
+    @ApiOperation("查询全部环境设备")
     public  ServerResponse selectByAll(){
         return ServerResponse.createBySuccess("查询成功", iEnvEquipService.selectByAll());
     }
@@ -122,6 +150,10 @@ public class EnvEquipController {
      * @return  status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/envEquip/selectByWorkshopid/{workshopid}")
+    @ApiOperation("根据车间id查询环境设备")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "workshopid", value = "车间id", paramType = "path",dataType = "String",defaultValue = "ws001",required = true)
+    })
     public ServerResponse selectByWorkshopid(
             @PathVariable String workshopid
     ){
@@ -139,6 +171,16 @@ public class EnvEquipController {
      * @return
      */
     @PostMapping("/envEquip/updateEnvequipByWorkshopid")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "workshopid", value = "车间id", paramType = "query",dataType = "String",defaultValue = "ws001",required = true),
+            @ApiImplicitParam(name = "warn", value = "警报id",paramType = "query",dataType = "String", defaultValue = "wa001"),
+            @ApiImplicitParam(name = "warnstatus", value = "警报状态", paramType = "query",dataType = "String",allowableValues = "1,2"),
+            @ApiImplicitParam(name = "fan", value = "风扇id", paramType = "query",dataType = "String",defaultValue = "fa001"),
+            @ApiImplicitParam(name = "fanstatus", value = "风扇状态",paramType = "query",dataType = "String", allowableValues = "1,2"),
+            @ApiImplicitParam(name = "light", value = "光照id",paramType = "query",dataType = "String",defaultValue = "lg001"),
+            @ApiImplicitParam(name = "lightstatus", value = "光照状态", paramType = "query",dataType = "String",allowableValues = "1,2"),
+            @ApiImplicitParam(name = "fee", value = "电费",paramType = "query",dataType = "String", defaultValue = "fee")
+    })
     public ServerResponse updateEnvequipByWorkshopid(Envequip envequip){
         int updateFlagCount = iEnvEquipService.updateByPrimaryKeySelective(envequip);
         boolean updateFlag = updateFlagCount>0?true:false;
@@ -171,7 +213,6 @@ public class EnvEquipController {
         return ServerResponse.createByErrorMessage("操作失败2");
     }
 
-    @GetMapping
     public void changeEquip( String equipment){
         byte[] bytes = HEXUtils.hexStringToByte(equipment);
         ByteBuffer buf1 = ByteBuffer.wrap(bytes);

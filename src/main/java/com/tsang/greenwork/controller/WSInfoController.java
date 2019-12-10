@@ -6,6 +6,10 @@ import com.tsang.greenwork.model.Wsinfor;
 import com.tsang.greenwork.service.ILogService;
 import com.tsang.greenwork.service.IUserService;
 import com.tsang.greenwork.service.IWsInforService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping
+@Api(tags = "车间信息管理接口")
 @CrossOrigin(origins = "*", maxAge = 3600)  //跨域请求
 public class WSInfoController {
     @Autowired
@@ -29,6 +34,13 @@ public class WSInfoController {
      * @return status-0成功-1失败，msg
      */
     @PostMapping("/wsinfor/insert")
+    @ApiOperation("新增车间信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "workshopid",value = "车间id",dataType = "String",paramType = "request",required = true),
+            @ApiImplicitParam(name = "workshopname",value = "车间名字",dataType = "String",paramType = "request",required = true),
+            @ApiImplicitParam(name = "statuss",value = "状态",dataType = "String",paramType = "request",required = true),
+            @ApiImplicitParam(name = "autoo",value = "自动化",dataType = "String",paramType = "request",required = true),
+    })
     public ServerResponse insert(Wsinfor wsinfor){
         Wsinfor wsinfor1 = iWsInforService.selectByPrimaryKey(wsinfor.getWorkshopid());
         if(wsinfor1 == null){
@@ -53,6 +65,10 @@ public class WSInfoController {
      * @return status-0成功-1失败，msg
      */
     @GetMapping("/wsinfor/delete/{workshopid}")
+    @ApiOperation("删除车间id")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "workshopid",value = "车间id",dataType = "String",paramType = "path",required = true),
+    })
     public ServerResponse delete(
             @PathVariable String workshopid
     ){
@@ -78,6 +94,13 @@ public class WSInfoController {
      * @return status-0成功-1失败，msg
      */
     @PostMapping("/wsinfor/update")
+    @ApiOperation("更改车间信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "workshopid",value = "车间id",dataType = "String",paramType = "request",required = true),
+            @ApiImplicitParam(name = "workshopname",value = "车间名字",dataType = "String",paramType = "request",required = true),
+            @ApiImplicitParam(name = "statuss",value = "状态",dataType = "String",paramType = "request",required = true),
+            @ApiImplicitParam(name = "autoo",value = "自动化",dataType = "String",paramType = "request",required = true),
+    })
     public ServerResponse update(Wsinfor wsinfor){
         int insertFlagCount = iWsInforService.update(wsinfor);
         boolean insertFlag = insertFlagCount>0?true:false;
@@ -95,6 +118,7 @@ public class WSInfoController {
      * @return status-0成功-1失败，msg
      */
     @GetMapping("/wsinfor/selectAll")
+    @ApiOperation("查询全部车间")
     public ServerResponse selectAll(
     ){
         List<Wsinfor> wsinfors = iWsInforService.selectAll();
@@ -111,6 +135,10 @@ public class WSInfoController {
      * @return status-0成功-1失败，msg
      */
     @GetMapping("/wsinfor/selectByid/{workshopid}")
+    @ApiOperation("根据车间id查询")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "workshopid",value = "车间id",dataType = "String",paramType = "path",required = true),
+    })
     public ServerResponse selectById(
             @PathVariable String workshopid
     ){
@@ -131,6 +159,12 @@ public class WSInfoController {
      * @return
      */
     @GetMapping("/wsinfor/updateFixStatus/{telephone}/{workshopid}/{status}")
+    @ApiOperation("新增车间信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "telephone",value = "电话号码",dataType = "String",paramType = "path",required = true),
+            @ApiImplicitParam(name = "workshopid",value = "车间id",dataType = "String",paramType = "path",required = true),
+            @ApiImplicitParam(name = "statuss",value = "状态",dataType = "String",paramType = "path",required = true),
+    })
     public ServerResponse updateFixStatus(
             @PathVariable String telephone,
             @PathVariable String workshopid,

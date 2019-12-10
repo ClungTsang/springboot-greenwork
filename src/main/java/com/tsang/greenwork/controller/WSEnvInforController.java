@@ -4,6 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.tsang.greenwork.common.ServerResponse;
 import com.tsang.greenwork.model.Wsenvinfor;
 import com.tsang.greenwork.service.IWsEnvInforSercice;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping
+@Api(tags = "车间环境信息接口")
 @CrossOrigin(origins = "*", maxAge = 3600)  //跨域请求
 public class WSEnvInforController {
 
@@ -42,6 +47,7 @@ public class WSEnvInforController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/wsenvInfor/selectCurrentData")
+    @ApiOperation("查询所有车间的最新环境数据")
     public ServerResponse selectCurrentData(){
         List<Wsenvinfor> wsenvinfors = iWsEnvInforSercice.selectCurrentData();
         if(wsenvinfors!=null) {
@@ -58,6 +64,10 @@ public class WSEnvInforController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/wsenvInfor/selectCurrentDataByWorkshopid/{workshopid}")
+    @ApiOperation("根据车间id查询最新车间环境")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "workshopid",value = "车间id",dataType = "String",paramType = "path",required = true),
+    })
     public ServerResponse selectCurrentDataByWorkshopid(@PathVariable  String workshopid){
         Wsenvinfor wsenvinfor = iWsEnvInforSercice.selectCurrentDataByWorkshopid(workshopid);
         if(wsenvinfor!=null) {
@@ -73,6 +83,7 @@ public class WSEnvInforController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/wsenvInfor/selectByAll")
+    @ApiOperation("查询全部环境设备")
     public  ServerResponse selectByAll(){
         List<Wsenvinfor> wsenvinfors = iWsEnvInforSercice.selectByAll();
         if(wsenvinfors.isEmpty()){
@@ -88,6 +99,10 @@ public class WSEnvInforController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/wsenvInfor/selectByWorkshopid/{workshopid}")
+    @ApiOperation("根据车间id查询所有的环境信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "workshopid",value = "车间id",dataType = "String",paramType = "path",required = true),
+    })
     public ServerResponse selectByPrimaryId(
             @PathVariable String workshopid
     ){
@@ -105,9 +120,12 @@ public class WSEnvInforController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/wsenvInfor/selectAllAvgDataWithDayByWorkshopid/{workshopid}")
+    @ApiOperation("查询当日能耗平均值")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "workshopid",value = "车间id",dataType = "String",paramType = "path",required = true),
+    })
     public JSONObject selectAllAvgDataWithDayByWorkshopid(@PathVariable String workshopid){
         JSONObject map = iWsEnvInforSercice.selectAllAvgDataWithDayByWorkshopid(workshopid);
-        JSONObject jsonObject = new JSONObject(map);
         return map;
     }
 
@@ -116,6 +134,10 @@ public class WSEnvInforController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/wsenvInfor/selectAllAvgDataWithWeekByWorkshopid/{workshopid}")
+    @ApiOperation("根据车间id查询当天的所属设备运行情况")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "workshopid",value = "车间id",dataType = "String",paramType = "path",required = true),
+    })
     public JSONObject selectAllAvgDataWithWeekByWorkshopid(@PathVariable String workshopid){
         Map map = iWsEnvInforSercice.selectAllAvgDataWithWeekByWorkshopid(workshopid);
         JSONObject jsonObject = new JSONObject(map);
@@ -128,6 +150,10 @@ public class WSEnvInforController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/wsenvInfor/selectAllAvgDataWithMonthByWorkshopid/{workshopid}")
+    @ApiOperation("查询当月的所有设备运行情况")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "workshopid",value = "车间id",dataType = "String",paramType = "path",required = true),
+    })
     public JSONObject selectAllAvgDataWithMonthByWorkshopid(@PathVariable String workshopid){
         Map map = iWsEnvInforSercice.selectAllAvgDataWithMonthByWorkshopid(workshopid);
         JSONObject jsonObject = new JSONObject(map);
@@ -139,6 +165,10 @@ public class WSEnvInforController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/wsenvInfor/ableSelectByWorkshopid/{workshopid}")
+    @ApiOperation("指定车间id 全部可查的")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "workshopid",value = "车间id",dataType = "String",paramType = "path",required = true),
+    })
     public JSONObject ableSelectByWorkshopid(@PathVariable String workshopid){
         Map map = iWsEnvInforSercice.ableSelectByWorkshopid(workshopid);
         JSONObject jsonObject = new JSONObject(map);
@@ -150,6 +180,11 @@ public class WSEnvInforController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/wsenvInfor/selectByWorkshopidWithDate/{workshopid}/{targetDate}")
+    @ApiOperation("指定车间 指定日期")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "workshopid",value = "车间id",dataType = "String",paramType = "path",required = true),
+            @ApiImplicitParam(name = "targetDate",value = "日期",dataType = "String",defaultValue = "20190101",paramType = "path",required = true),
+    })
     public List selectByWorkshopidWithDate(
             @PathVariable String workshopid,
             @PathVariable String targetDate

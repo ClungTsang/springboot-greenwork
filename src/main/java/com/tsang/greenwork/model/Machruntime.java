@@ -45,7 +45,7 @@ public class Machruntime {
         this.frequency = frequency;
     }
 
-    public Machruntime(String machineid, String situation, String nrgconsumption, String frequency,String workshopid, Date updated) {
+    public Machruntime(String machineid, String situation, String nrgconsumption, String frequency, Date updated,String workshopid) {
         this.machineid = machineid;
         this.situation = situation;
         this.nrgconsumption = nrgconsumption;

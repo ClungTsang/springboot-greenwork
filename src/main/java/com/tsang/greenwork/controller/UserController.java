@@ -5,6 +5,10 @@ import com.tsang.greenwork.model.Machinfor;
 import com.tsang.greenwork.model.User;
 import com.tsang.greenwork.model.Wsinfor;
 import com.tsang.greenwork.service.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping
+@Api(tags = "用户管理接口")
 @CrossOrigin(origins = "*", maxAge = 3600)  //跨域请求
 public class UserController {
     @Autowired
@@ -31,6 +36,14 @@ public class UserController {
      * @return status-0成功-1失败，msg
      */
     @GetMapping("/user/register/{telephone}/{username}/{account}/{password}/{phonemac}")
+    @ApiOperation("注册用户接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "telephone",value = "电话号码",dataType = "String",paramType = "path",required = true),
+            @ApiImplicitParam(name = "username",value = "姓名",dataType = "String",paramType = "path",required = true),
+            @ApiImplicitParam(name = "account",value = "账户名称",dataType = "String",paramType = "path",required = true),
+            @ApiImplicitParam(name = "password",value = "密码",dataType = "String",paramType = "path",required = true),
+            @ApiImplicitParam(name = "phonemac",value = "手机mac地址",dataType = "String",paramType = "path",required = true),
+    })
     public ServerResponse checkAccount(
             @PathVariable String telephone,
             @PathVariable String username,
@@ -69,6 +82,10 @@ public class UserController {
      * @return status-0成功-1失败，msg
      */
     @GetMapping("/user/delete")
+    @ApiOperation("删除用户接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "telephone",value = "电话号码",dataType = "String",paramType = "request",required = true),
+    })
     public ServerResponse deleteAccount(
             @RequestParam("telephone")  String telephone
     ){
@@ -96,6 +113,20 @@ public class UserController {
      * @return status-0成功-1失败，msg
      */
     @PostMapping("/user/updateInfor")
+    @ApiOperation("修改用户接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "telephone",value = "电话号码",dataType = "String",paramType = "request",required = true),
+            @ApiImplicitParam(name = "username",value = "姓名",dataType = "String",paramType = "request"),
+            @ApiImplicitParam(name = "account",value = "账户名称",dataType = "String",paramType = "request"),
+            @ApiImplicitParam(name = "password",value = "密码",dataType = "String",paramType = "request"),
+            @ApiImplicitParam(name = "job",value = "职位",dataType = "String",paramType = "request"),
+            @ApiImplicitParam(name = "hiredate",value = "入职时间",dataType = "String",paramType = "request"),
+            @ApiImplicitParam(name = "phonemac",value = "手机mac",dataType = "String",paramType = "request"),
+            @ApiImplicitParam(name = "checkin",value = "签到次数",dataType = "String",paramType = "request"),
+            @ApiImplicitParam(name = "checked",value = "审核情况",dataType = "String",paramType = "request",allowableValues = "未审核，通过审核"),
+            @ApiImplicitParam(name = "machineid",value = "设备id",dataType = "String",paramType = "request"),
+            @ApiImplicitParam(name = "workshopid",value = "车间id",dataType = "String",paramType = "request"),
+    })
     public ServerResponse updateInfor(User user){
         System.out.println(user.getWorkshopid());
         int updateFlagCount = iUserService.updateByPrimaryKeySelective(user);
@@ -121,6 +152,14 @@ public class UserController {
      * @return status-0成功-1失败，msg
      */
     @GetMapping("/user/updateCheck/{currentTelephone}/{machineid}/{telephone}/{checked}/{workshopid}")
+    @ApiOperation("审核请求同时设置该用户为车间的负责人接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "currentTelephone",value = "当前电话",dataType = "String",paramType = "path",required = true),
+            @ApiImplicitParam(name = "machineid",value = "设备id",dataType = "String",paramType = "path",required = true),
+            @ApiImplicitParam(name = "telephone",value = "电话号码",dataType = "String",paramType = "path",required = true),
+            @ApiImplicitParam(name = "checked",value = "审核请求",dataType = "String",defaultValue = "通过审核",paramType = "path",required = true),
+            @ApiImplicitParam(name = "workshopid",value = "车间id",dataType = "String",paramType = "path",required = true),
+    })
     public ServerResponse updateCheck(
             @PathVariable  String currentTelephone,
             @PathVariable  String machineid,
@@ -206,6 +245,7 @@ public class UserController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/user/selectByAll")
+    @ApiOperation("查询全部用户信息")
     public  ServerResponse selectByAll(){
         return ServerResponse.createBySuccess("查询所有信息成功", iUserService.selectByAll());
     }
@@ -217,6 +257,10 @@ public class UserController {
      * @return status-0成功-1失败，msg
      */
     @GetMapping("/user/selectByCheck/{checked}")
+    @ApiOperation("在user表中查询审核情况接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "checked",value = "审核请求",dataType = "String",paramType = "path",required = true),
+    })
     public ServerResponse selectByCheck(
             @PathVariable String checked
     ){
@@ -243,6 +287,10 @@ public class UserController {
      * @return status-0成功-1失败，msg
      */
     @GetMapping("/user/selectById/{telephone}")
+    @ApiOperation("根据手机号单查询用户")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "telephone",value = "电话号码",dataType = "String",paramType = "path",required = true),
+    })
     public ServerResponse selectByPrimaryId(
             @PathVariable String telephone
     ){
@@ -268,6 +316,10 @@ public class UserController {
      * @return status-0成功-1失败，msg
      */
     @GetMapping("/user/checkIn/{telephone}")
+    @ApiOperation("签到操作")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "telephone",value = "电话号码",dataType = "String",paramType = "path",required = true),
+    })
     public ServerResponse updateCheckIn(
             @PathVariable String telephone
     ){

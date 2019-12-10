@@ -5,6 +5,10 @@ import com.tsang.greenwork.common.ServerResponse;
 import com.tsang.greenwork.model.Machruntime;
 import com.tsang.greenwork.service.ILogService;
 import com.tsang.greenwork.service.IMachRuntimeService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping
+@Api(tags = "环境数据接口")
 @CrossOrigin(origins = "*", maxAge = 3600)  //跨域请求
 public class MachRuntimeController {
     @Autowired
@@ -29,6 +34,10 @@ public class MachRuntimeController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/machRuntime/selectByMachineid/{machineid}")
+    @ApiOperation("查询环境数据接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "machineid",value = "设备id",dataType = "String",paramType = "path",required = true),
+    })
     public ServerResponse selectByMachineid(
             @PathVariable  String machineid
     ){
@@ -46,6 +55,10 @@ public class MachRuntimeController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/machRuntime/selectByWorkshopid/{workshopid}")
+    @ApiOperation("根据车间id查询环境数据接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "workshopid",value = "车间id",dataType = "String",paramType = "path",required = true),
+    })
     public ServerResponse selectByWorkshopid(
             @PathVariable  String workshopid
     ){
@@ -80,6 +93,7 @@ public class MachRuntimeController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/machRuntime/selectCurrentData")
+    @ApiOperation("查询最新的所有生产设备运行情况查询环境数据接口")
     public ServerResponse selectCurrentData(){
         List<Machruntime> machruntimes = iMachRuntimeService.selectCurrentData();
         return ServerResponse.createBySuccess("查询最新数据成功",machruntimes);
@@ -91,6 +105,10 @@ public class MachRuntimeController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/machRuntime/selectCurrentDataByWorkshopid/{workshopid}")
+    @ApiOperation("根据车间id 查询最新所有设备运行情况接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "workshopid",value = "车间id",dataType = "String",paramType = "path",required = true),
+    })
     public ServerResponse selectCurrentDataByWorkshopid(@PathVariable String workshopid){
         List<Machruntime> machruntimes = iMachRuntimeService.selectCurrentDataByWorkshopid(workshopid);
         if(machruntimes!=null){
@@ -106,6 +124,10 @@ public class MachRuntimeController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/machRuntime/selectAllAvgDataWithDayByMachineid/{machineid}")
+    @ApiOperation("查询当日能耗平均值接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "machineid",value = "设备id",dataType = "String",paramType = "path",required = true),
+    })
     public JSONObject selectAllAvgDataWithDayByMachineid(@PathVariable String machineid){
         JSONObject map = iMachRuntimeService.selectAllAvgDataWithDayByMachineid(machineid);
 //        JSONObject jsonObject = new JSONObject(map);
@@ -118,6 +140,10 @@ public class MachRuntimeController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/machRuntime/selectAllAvgDataWithWeekByMachineid/{machineid}")
+    @ApiOperation("根据车间id查询当天的所属设备运行情况接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "machineid",value = "设备id",dataType = "String",paramType = "path",required = true),
+    })
     public JSONObject selectAllAvgDataWithWeekByMachineid(@PathVariable String machineid){
         Map map = iMachRuntimeService.selectAllAvgDataWithWeekByMachineid(machineid);
         JSONObject jsonObject = new JSONObject(map);
@@ -130,6 +156,7 @@ public class MachRuntimeController {
      * @return  status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/machRuntime/selectByAll")
+    @ApiOperation("全查所有环境数据皆苦")
     public ServerResponse selectByAll(){
         List<Machruntime> machruntimes = iMachRuntimeService.selectByAll();
         if(machruntimes!= null){
@@ -144,6 +171,10 @@ public class MachRuntimeController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/machRuntime/selectAllAvgDataWithMonthByMachineid/{machineid}")
+    @ApiOperation("查询当月的所有设备运行情况接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "machineid",value = "设备id",dataType = "String",paramType = "path",required = true),
+    })
     public JSONObject selectAllDataWithMonthByMachineid(@PathVariable String machineid){
         Map map = iMachRuntimeService.selectAllAvgDataWithMonthByMachineid(machineid);
         JSONObject jsonObject = new JSONObject(map);
@@ -155,6 +186,10 @@ public class MachRuntimeController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/machRuntime/ableSelectByMachineid/{machineid}")
+    @ApiOperation("指定设备id 全部可查的")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "machineid",value = "设备id",dataType = "String",paramType = "path",required = true),
+    })
     public JSONObject pageByMachineid(@PathVariable String machineid){
         Map map = iMachRuntimeService.ableSelectByMachineid(machineid);
         JSONObject jsonObject = new JSONObject(map);
@@ -166,6 +201,11 @@ public class MachRuntimeController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/machRuntime/selectByMachineidWithDate/{machineid}/{targetDate}")
+    @ApiOperation("查询当日能耗平均值")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "machineid",value = "设备id",dataType = "String",paramType = "path",required = true),
+            @ApiImplicitParam(name = "targetDate",value = "目标日期",dataType = "String",paramType = "path",required = true),
+    })
     public List selectByMachineidWithDate(
             @PathVariable String machineid,
             @PathVariable String targetDate

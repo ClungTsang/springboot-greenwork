@@ -6,6 +6,10 @@ import com.tsang.greenwork.model.Wsinfor;
 import com.tsang.greenwork.service.ILogService;
 import com.tsang.greenwork.service.IMachiInforService;
 import com.tsang.greenwork.service.IWsInforService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping
+@Api(tags = "生产设备接口")
 @CrossOrigin(origins = "*", maxAge = 3600)  //跨域请求
 public class MachInforController {
     @Autowired
@@ -26,12 +31,20 @@ public class MachInforController {
     /**
      * 添加设备信息
      * @param machinfor 设备信息
-     * @param bindingResult 不用管
      * @return
      */
-    @GetMapping("/machInfor/insert/{machineid}/{machinemodel}/{buyingtime}/{productivetime}/{workshopid}/{latitude}/{longitude}")
-    //BindingResult bindingResult  检测传入值是否符合规范
-    public ServerResponse insert(Machinfor machinfor, BindingResult bindingResult){
+    @PostMapping("/machInfor/insert")
+    @ApiOperation("新增设备信息接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "machineid",value = "设备id",dataType = "String",paramType = "path",required = true),
+            @ApiImplicitParam(name = "machinemodel",value = "设备型号",dataType = "String",paramType = "path",required = true),
+            @ApiImplicitParam(name = "buyingtime",value = "购买日期",dataType = "String",paramType = "path",required = true),
+            @ApiImplicitParam(name = "productivetime",value = "生产日期",dataType = "String",paramType = "path",required = true),
+            @ApiImplicitParam(name = "workshopid",value = "车间id",dataType = "String",paramType = "path",required = true),
+            @ApiImplicitParam(name = "latitude",value = "纬度",dataType = "String",paramType = "path",required = true),
+            @ApiImplicitParam(name = "longitude",value = "经度",dataType = "String",paramType = "path",required = true),
+    })
+    public ServerResponse insert(Machinfor machinfor){
         String workshopid = machinfor.getWorkshopid();
         Wsinfor wsinfor = iWsInforService.selectByPrimaryKey(workshopid);
         if(wsinfor == null){
@@ -64,6 +77,10 @@ public class MachInforController {
      * @return  status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/machInfor/delete")
+    @ApiOperation("删除设备信息接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "machineid",value = "设备id",dataType = "String",paramType = "query",required = true),
+    })
     public ServerResponse delete(
             @RequestParam("machineid")  String machineid
     ){
@@ -84,9 +101,17 @@ public class MachInforController {
      * @return  status-0成功-1失败 msg信息 data数据
      */
     @PostMapping("/machInfor/updateInfor")
-    public ServerResponse updateInfo(
-            Machinfor machinfor, BindingResult bindingResult
-    ){
+    @ApiOperation("修改设备信息接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "machineid",value = "设备id",dataType = "String",paramType = "query",required = true),
+            @ApiImplicitParam(name = "machinemodel",value = "设备型号",dataType = "String",paramType = "query",required = true),
+            @ApiImplicitParam(name = "buyingtime",value = "购买日期",dataType = "String",paramType = "query",required = true),
+            @ApiImplicitParam(name = "productivetime",value = "生产日期",dataType = "String",paramType = "query",required = true),
+            @ApiImplicitParam(name = "workshopid",value = "车间id",dataType = "String",paramType = "query",required = true),
+            @ApiImplicitParam(name = "latitude",value = "纬度",dataType = "String",paramType = "query"),
+            @ApiImplicitParam(name = "longitude",value = "经度",dataType = "String",paramType = "query"),
+    })
+    public ServerResponse updateInfo(Machinfor machinfor){
         String machineid = machinfor.getMachineid();
         if(iMachiInforService.selectByMachineid(machineid) == null){
             return ServerResponse.createByErrorMessage("不存在该设备，不允许修改");
@@ -124,6 +149,7 @@ public class MachInforController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/machInfor/selectByAll")
+    @ApiOperation("查询全部设备信息接口")
     public  ServerResponse selectByAll(){
         return ServerResponse.createBySuccess("查询成功", iMachiInforService.selectByAll());
     }
@@ -135,6 +161,10 @@ public class MachInforController {
      */
     @ResponseBody
     @GetMapping("/machInfor/selectAllByWorkshopid")
+    @ApiOperation("根据车间id查询设备信息接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "workshopid",value = "车间id",dataType = "String",paramType = "query",required = true),
+    })
     public ServerResponse selectAllByWorkshopid(
             @RequestParam("workshopid") String workshopid
     ){
@@ -148,6 +178,10 @@ public class MachInforController {
      * @return status-0成功-1失败 msg信息 data数据
      */
     @GetMapping("/machInfor/selectByMachineid")
+    @ApiOperation("根据设备id查询设备信息接口")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "workshopid",value = "车间id",dataType = "String",paramType = "query",required = true),
+    })
     public ServerResponse selectByMachineId(
             @RequestParam("machineid") String machineid
     ){
