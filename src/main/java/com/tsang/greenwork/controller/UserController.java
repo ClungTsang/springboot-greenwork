@@ -133,7 +133,7 @@ public class UserController {
         User user1 = iUserService.selectByPrimaryKey(user.getTelephone());
         boolean updateFlag = updateFlagCount>0?true:false;
             if(updateFlag){
-                iLogService.insertSelective(user1.getUsername(),user1.getTelephone(),"该用户信息被修改了");
+//                iLogService.insertSelective(user1.getUsername(),user1.getTelephone(),"该用户信息被修改了");
                 return ServerResponse.createBySuccess("修改成功",user);
             }else{
                 return ServerResponse.createByErrorMessage("修改失败");

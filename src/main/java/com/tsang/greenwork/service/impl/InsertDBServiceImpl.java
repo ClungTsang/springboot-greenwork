@@ -12,6 +12,7 @@ import com.tsang.greenwork.service.IInsertDBService;
 import com.tsang.greenwork.service.INumTransService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import java.util.Iterator;

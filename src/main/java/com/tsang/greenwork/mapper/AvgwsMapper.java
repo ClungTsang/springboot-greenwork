@@ -2,12 +2,10 @@ package com.tsang.greenwork.mapper;
 
 import com.tsang.greenwork.model.Avgws;
 import com.tsang.greenwork.model.AvgwsExample;
-import java.util.List;
-import java.util.Map;
-
 import com.tsang.greenwork.model.Avgwss;
-import com.tsang.greenwork.model.Machruntime;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface AvgwsMapper {
     int countByExample(AvgwsExample example);

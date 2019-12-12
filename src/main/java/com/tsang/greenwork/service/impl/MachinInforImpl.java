@@ -5,12 +5,17 @@ import com.tsang.greenwork.model.Machinfor;
 import com.tsang.greenwork.model.MachinforExample;
 import com.tsang.greenwork.service.IMachiInforService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class MachiInforImpl implements IMachiInforService {
+@CacheConfig(cacheNames = {"machinInfor"})
+public class MachinInforImpl implements IMachiInforService {
     @Autowired
     private MachinforMapper machinforMapper;
 
@@ -20,6 +25,7 @@ public class MachiInforImpl implements IMachiInforService {
      * @return
      */
     @Override
+    @Cacheable
     public int insertSelective(Machinfor record) {
         return machinforMapper.insertSelective(record);
     }
@@ -30,6 +36,7 @@ public class MachiInforImpl implements IMachiInforService {
      * @return
      */
     @Override
+    @CacheEvict(beforeInvocation = true)
     public int deleteByPrimaryKey(String machineid) {
         return machinforMapper.deleteByPrimaryKey(machineid);
     }
@@ -40,6 +47,7 @@ public class MachiInforImpl implements IMachiInforService {
      * @return
      */
     @Override
+    @CachePut
     public int updateByPrimaryKeySelective(Machinfor record) {
         return machinforMapper.updateByPrimaryKeySelective(record);
     }
@@ -49,6 +57,7 @@ public class MachiInforImpl implements IMachiInforService {
      * @return
      */
     @Override
+    @Cacheable
     public List<Machinfor> selectByAll() {
         return machinforMapper.selectByExample(new MachinforExample());
     }
@@ -59,6 +68,7 @@ public class MachiInforImpl implements IMachiInforService {
      * @return
      */
     @Override
+    @Cacheable
     public Machinfor selectByMachineid(String machineid) {
         return machinforMapper.selectByPrimaryKey(machineid);
     }
@@ -69,6 +79,7 @@ public class MachiInforImpl implements IMachiInforService {
      * @return
      */
     @Override
+    @Cacheable
     public Machinfor selectByUsername(String username) {
         return machinforMapper.selectByUsername(username);
     }
@@ -79,6 +90,7 @@ public class MachiInforImpl implements IMachiInforService {
      * @return
      */
     @Override
+    @Cacheable
     public Machinfor selectByPrimaryKey(String machineid) {
         return machinforMapper.selectByPrimaryKey(machineid);
     }
@@ -89,6 +101,7 @@ public class MachiInforImpl implements IMachiInforService {
      * @return
      */
     @Override
+    @Cacheable
     public List<Machinfor> selectAllByWorkshopid(String workshopid) {
         return machinforMapper.selectAllByWorkshopid(workshopid);
     }

@@ -16,7 +16,7 @@
         <!-- 数据库连接配置 -->
         <jdbcConnection
                 driverClass="com.mysql.jdbc.Driver"
-                connectionURL="jdbc:mysql://121.199.59.170:3306/greenwork"
+                connectionURL="jdbc:mysql://127.0.0.1:3306/greenwork"
                 userId="root"
                 password="9527">
         </jdbcConnection>

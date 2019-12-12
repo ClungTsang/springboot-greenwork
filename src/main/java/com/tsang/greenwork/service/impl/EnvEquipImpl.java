@@ -8,12 +8,16 @@ import com.tsang.greenwork.service.IInsertDBService;
 import com.tsang.greenwork.utils.CrcUtil;
 import com.tsang.greenwork.utils.HEXUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.List;
 
 @Service
+@CacheConfig(cacheNames = {"envEquip"})
 public class EnvEquipImpl implements IEnvEquipService {
 
     @Autowired
@@ -26,6 +30,7 @@ public class EnvEquipImpl implements IEnvEquipService {
      * @return
      */
     @Override
+    @Cacheable
     public int insertSelective(Envequip record) {
         return envequipMapper.insertSelective(record);
     }
@@ -36,6 +41,7 @@ public class EnvEquipImpl implements IEnvEquipService {
      * @return
      */
     @Override
+    @CacheEvict(beforeInvocation = true)
     public int deleteByPrimaryKey(String envequipid) {
         return envequipMapper.deleteByPrimaryKey(envequipid);
     }
@@ -45,6 +51,7 @@ public class EnvEquipImpl implements IEnvEquipService {
      * @return
      */
     @Override
+    @Cacheable
     public List<Envequip> selectByAll() {
         return envequipMapper.selectByExample(new EnvequipExample());
     }
@@ -56,6 +63,7 @@ public class EnvEquipImpl implements IEnvEquipService {
      * @return
      */
     @Override
+    @Cacheable
     public Envequip selectByPrimaryKey(String workshopid) {
         return envequipMapper.selectByPrimaryKey(workshopid);
     }

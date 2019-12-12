@@ -48,21 +48,25 @@ public class ElefeeImpl implements IElefeeService {
 
 
     @Override
+    @Cacheable
     public List<Elefee> selectAll() {
         return elefeeMapper.selectAll();
     }
 
     @Override
+    @CacheEvict(beforeInvocation = true)
     public int deleteEleffByRange(String range) {
         return elefeeMapper.deleteByPrimaryKey(range);
     }
 
     @Override
+    @Cacheable
     public int insertElefee(Elefee record) {
         return elefeeMapper.insert(record);
     }
 
     @Override
+    @CachePut
     public int updateElefee(Elefee record) {
         return elefeeMapper.updateByPrimaryKey(record);
     }

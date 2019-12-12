@@ -2,8 +2,8 @@ spring:
   #redis配置信息
   redis:
     #redis 服务器地址
-    host: 121.199.59.170
-      #redis端口
+    host: 127.0.0.1
+    #redis端口
     port: 6379
     #redis 密码
     password: 123456
@@ -34,7 +34,7 @@ spring:
     username: root
     password: 9527
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://121.199.59.170:3306/greenwork?useUnicode=true&useSSL=false&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+    url: jdbc:mysql://127.0.0.1:3306/greenwork?useUnicode=true&useSSL=false&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
     type: com.alibaba.druid.pool.DruidDataSource
     initialSize: 5
     minIdle: 5
@@ -58,14 +58,6 @@ spring:
     maxPoolPreparedStatementPerConnectionSize: 20
     useGlobalDataSourceStat: true
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
-  thymeleaf:
-    cache: false
-    prefix: classpath:/templates/
-    suffix: .html
-    encoding: utf-8
-    mode: html5
-    servlet:
-      content-type: text/html
 #开发配置
 netty:
   port: 2310

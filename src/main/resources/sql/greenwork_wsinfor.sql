@@ -1,9 +1,0 @@
-INSERT INTO greenwork.wsinfor (workshopid, workshopname, statuss, autoo) VALUES ('ws001', '一号车间', 'unfix', '0');
-INSERT INTO greenwork.wsinfor (workshopid, workshopname, statuss, autoo) VALUES ('ws002', '二号车间', 'unfix', '0');
-INSERT INTO greenwork.wsinfor (workshopid, workshopname, statuss, autoo) VALUES ('ws003', '三号车间', 'unfix', '0');
-INSERT INTO greenwork.wsinfor (workshopid, workshopname, statuss, autoo) VALUES ('ws004', '四号车间', 'unfix', '0');
-INSERT INTO greenwork.wsinfor (workshopid, workshopname, statuss, autoo) VALUES ('ws005', '五号车间', 'unfix', '0');
-INSERT INTO greenwork.wsinfor (workshopid, workshopname, statuss, autoo) VALUES ('ws006', '六号车间', 'unfix', '0');
-INSERT INTO greenwork.wsinfor (workshopid, workshopname, statuss, autoo) VALUES ('ws007', '七号车间', 'unfix', '0');
-INSERT INTO greenwork.wsinfor (workshopid, workshopname, statuss, autoo) VALUES ('ws008', '八号车间', 'unfix', '0');
-INSERT INTO greenwork.wsinfor (workshopid, workshopname, statuss, autoo) VALUES ('ws009', '九号车间', 'unfix', '0');

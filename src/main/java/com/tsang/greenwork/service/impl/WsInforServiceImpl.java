@@ -5,6 +5,10 @@ import com.tsang.greenwork.model.Wsinfor;
 import com.tsang.greenwork.model.WsinforExample;
 import com.tsang.greenwork.service.IWsInforService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -12,6 +16,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 @Service
+@CacheConfig(cacheNames = {"wsInfor"})
 public class WsInforServiceImpl implements IWsInforService {
     @Autowired
     private WsinforMapper wsinforMapper;
@@ -22,6 +27,7 @@ public class WsInforServiceImpl implements IWsInforService {
      * @return
      */
     @Override
+    @Cacheable
     public int insertSelective(Wsinfor record) {
         return wsinforMapper.insertSelective(record);
     }
@@ -32,6 +38,7 @@ public class WsInforServiceImpl implements IWsInforService {
      * @return
      */
     @Override
+    @CacheEvict(beforeInvocation = true)
     public int deleteByWorkshopId(String workshopid) {
         return wsinforMapper.deleteByPrimaryKey(workshopid);
     }
@@ -42,6 +49,7 @@ public class WsInforServiceImpl implements IWsInforService {
      * @return
      */
     @Override
+    @CachePut
     public int update(Wsinfor record) {
         return wsinforMapper.updateByPrimaryKeySelective(record);
     }
@@ -53,6 +61,7 @@ public class WsInforServiceImpl implements IWsInforService {
      * @return
      */
     @Override
+    @Cacheable
     public List<Wsinfor> selectAll() {
         return  wsinforMapper.selectAll();
     }
@@ -64,11 +73,13 @@ public class WsInforServiceImpl implements IWsInforService {
      * @return
      */
     @Override
+    @Cacheable
     public Wsinfor selectByPrimaryKey(String workshopid) {
         return wsinforMapper.selectByPrimaryKey(workshopid);
     }
 
     @Override
+    @Cacheable
     public List<Wsinfor> selectByExample(String workshopid){
 
         WsinforExample wsinforExample = new WsinforExample();
@@ -106,6 +117,7 @@ public class WsInforServiceImpl implements IWsInforService {
     }
 
     @Override
+    @CachePut
     public int updateFixStatus(String workshopid) {
         return wsinforMapper.updateUnfixStatus(workshopid);
     }

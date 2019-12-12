@@ -6,11 +6,16 @@ import com.tsang.greenwork.model.User;
 import com.tsang.greenwork.model.UserExample;
 import com.tsang.greenwork.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@CacheConfig(cacheNames = {"user"})
 public class UserServiceImpl implements IUserService {
 
 
@@ -24,6 +29,7 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
+    @Cacheable
     public int countByAll() {
         return userMapper.countByExample(new UserExample());
     }
@@ -35,6 +41,7 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
+    @Cacheable
     public int countByMac(String phonemac) {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
@@ -49,6 +56,7 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
+    @Cacheable
     public int checkTelephoneAndPasswordAndMacAddress(String telephone, String password,String phonemac) {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
@@ -60,6 +68,7 @@ public class UserServiceImpl implements IUserService {
 
 
     @Override
+    @Cacheable
     public int checkTelephone(String telephone) {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
@@ -74,6 +83,7 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
+    @Cacheable
     public int checkAccount(String telephone, String password) {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
@@ -90,6 +100,7 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
+    @Cacheable
     public User seleteByTelephoneAndPassword(String telephone, String password) {
         UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
@@ -107,6 +118,7 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
+    @CacheEvict(beforeInvocation = true)
     public int deleteByPrimaryKey(String telephone) {
         return userMapper.deleteByPrimaryKey(telephone);
     }
@@ -118,6 +130,7 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
+    @Cacheable
     public int insertSelective(User record) {
         return userMapper.insertSelective(record);
     }
@@ -128,6 +141,7 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
+    @Cacheable
     public List<User> selectByAll() {
         return userMapper.selectByAll();
     }
@@ -139,6 +153,7 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
+    @Cacheable
     public User selectByPrimaryKey(String telephone) {
         return userMapper.selectByPrimaryKey(telephone);
     }
@@ -149,6 +164,7 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
+    @Cacheable
     public List<User> selectByCheck(String checked) {
         return userMapper.selectByCheck(checked);
     }
@@ -160,6 +176,7 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
+    @Cacheable
     public User selectByPhoneMac(String phonemac) {
         return userMapper.selectByPhonemac(phonemac);
     }
@@ -171,6 +188,7 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
+    @Cacheable
     public String selectByUsername(String username) {
         return userMapper.selectByUsername(username);
     }
@@ -182,6 +200,7 @@ public class UserServiceImpl implements IUserService {
      * @return
      */
     @Override
+    @CachePut
     public int updateByPrimaryKeySelective(User record) {
         return userMapper.updateByPrimaryKeySelective(record);
     }

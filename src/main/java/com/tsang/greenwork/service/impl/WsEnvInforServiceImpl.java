@@ -9,6 +9,8 @@ import com.tsang.greenwork.model.Wsenvinfor;
 import com.tsang.greenwork.model.WsenvinforExample;
 import com.tsang.greenwork.service.IWsEnvInforSercice;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -17,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
+@CacheConfig(cacheNames = {"wsEnvInfor"})
 public class WsEnvInforServiceImpl implements IWsEnvInforSercice {
 
     @Autowired
@@ -30,6 +33,7 @@ public class WsEnvInforServiceImpl implements IWsEnvInforSercice {
      * @return
      */
     @Override
+    @Cacheable
     public int insertSelective(Wsenvinfor record) {
         return wsenvinforMapper.insertSelective(record);
     }
@@ -39,11 +43,13 @@ public class WsEnvInforServiceImpl implements IWsEnvInforSercice {
      * @return
      */
     @Override
+    @Cacheable
     public List<Wsenvinfor> selectByAll() {
         return wsenvinforMapper.selectByExample(new WsenvinforExample());
     }
 
     @Override
+    @Cacheable
     public List<Wsenvinfor> selectByPrimaryId(String workshopid) {
         WsenvinforExample wsinforExample = new WsenvinforExample();
         WsenvinforExample.Criteria criteria = wsinforExample.createCriteria();
