@@ -46,13 +46,13 @@ public class GreenworkApplication implements CommandLineRunner {
 //        wsInforService.updateUnfixStatus();
 
         //启动服务端
-        ChannelFuture start = nettyTcpServer.start();
+//        ChannelFuture start = nettyTcpServer.start();
 
         //启动客户端
 //        nettyTcpClient.connect();
 
         //服务端管道关闭的监听器并同步阻塞 知道channel关闭 线程才会往下执行 结束进程
-        start.channel().closeFuture().syncUninterruptibly();
+//        start.channel().closeFuture().syncUninterruptibly();
 
     }
 
