@@ -10,7 +10,6 @@
 ### 更改redis的ip地址和数据库ip地址，默认127.0.0.1为本地
 ## 3、mybatis逆向工程
 ### personal-generator.xml中填写mybatis逆向工程的相关配置，在左侧Maven菜单双击mybatis-generator:generate
-![图片](src/main/resources/static/img/逆向.png)
 ## 4、banner.txt中可以自定义启动界面
 ### she.s my girl
 
