@@ -1,0 +1,113 @@
+spring:
+  #redis配置信息
+  redis:
+    #redis 服务器地址
+    host: 121.199.59.170
+    #redis端口
+    port: 6379
+    #redis 密码
+    password: 123456
+    #客户端超时时间单位是毫秒 默认是2000
+    timeout: 5000
+    #最大空闲数
+    maxIdle: 20
+    #连接池的最大数据库连接数
+    maxActive: -1
+    #控制一个pool可分配多少个jedis实例,用来替换上面的maxActive
+    maxTotal: 100
+    #最大建立连接等待时间。如果超过此时间将接到异常
+    maxWaitMillis: 100
+    #连接的最小空闲时间
+    minEvictableIdleTimeMillis: 864000000
+    #每次释放连接的最大数目
+    numTestsPerEvictionRun: 10
+    #逐出扫描的时间间隔(毫秒) 如果为负数,则不运行逐出线程
+    timeBetweenEvictionRunsMillis: 300000
+    #是否在从池中取出连接前进行检验,如果检验失败,则从池中去除连接并尝试取出另一个
+    testOnBorrow: true
+    #在空闲时检查有效性
+    testWhileIdle: false
+    #数据库
+    database: 0
+  datasource:
+    #   数据源基本配置
+    username: root
+    password: 9527
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://121.199.59.170:3306/greenwork?useUnicode=true&useSSL=false&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    #在空闲连接回收器线程运行期间休眠的时间值,以毫秒为单位，一般比minEvictableIdleTimeMillis小
+    timeBetweenEvictionRunsMillis: 300000
+    #连接池中连接，在时间段内一直空闲，被逐出连接池的时间(1000*60*60)，以毫秒为单位
+    minevictableidletimemillis: 3600000
+    #在每次空闲连接回收器线程(如果有)运行时检查的连接数量，最好和maxActive一致
+    numTestsPerEvictionRun: 50
+    #SQL查询,用来验证从连接池取出的连接
+    validationQuery: SELECT 1 FROM DUAL
+    #指明连接是否被空闲连接回收器(如果有)进行检验，如果检测失败，则连接将被从池中去除
+    testWhileIdle: true
+    #   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,log4j
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+#开发配置
+netty:
+  port: 2310
+  host: 127.0.0.1
+server:
+  port: 8002
+#  port: 8003
+  compression:
+    enabled: true
+  max-http-header-size: 10240
+
+#开启驼峰命名
+mybatis:
+  typeAliasesPackage: com.tsang.greenwork.model
+  mapperLocations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+
+---
+#DO-1:风扇
+#DO-2:LED灯
+#DO-3:警报
+
+DO:
+  DO-1:
+    open: 11050000FF008EAA
+    close: 110500000000CF5A
+
+  DO-2:
+    open: 11050001FF00DF6A
+    close: 1105000100009E9A
+
+  DO-3:
+    open: 11050002FF002F6A
+    close: 1105000200006E9A
+
+  #注册包
+  #  返回：11 03 28 77 73 30 30 31 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 3A 24，
+  #即77 73 30 30 31代表ws001
+  Registration:
+    read: 110310BA00146270
+
+  #电压 作为pm2.5  实现大幅度变化返回11 03 02 09 43 3E 26，第4-5位 09 43 为数据的16进制，换算为十进制为2.371v
+  Voltage:
+    read: 1103005800010749
+
+#车间一:温 湿度 光照 pm2.5
+#01 03 28 11 DF 1E 47 01 70 00 00 00 05 00 06 00 08 00 0B 00 0C 00 0A 00 0B 00 0C 00 0D 00 0E 00 0F 00 10 00 11 00 12 00 13 00 14 76 CC
+#11 DF为温度，1E 47为湿度，01 70光照，00 0B是pm2.5（00 08是pm1.0，00 0C是pm10，都有效）
+  FullData:
+    read: 110103000100141405
+

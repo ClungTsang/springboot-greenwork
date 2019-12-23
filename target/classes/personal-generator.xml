@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!--指定特定数据库的jdbc驱动jar包的位置-->
+    <classPathEntry location="D:\repository\mysql\mysql-connector-java\5.1.40\mysql-connector-java-5.1.40.jar"/>
+    <context id="context1" targetRuntime="MyBatis3">
+
+        <commentGenerator>
+            <!-- 去除自动成的注释 -->
+            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!-- 数据库连接配置 -->
+<!--        <jdbcConnection-->
+<!--                driverClass="com.mysql.jdbc.Driver"-->
+<!--                connectionURL="jdbc:mysql://121.199.59.170:3306/greenwork"-->
+<!--                userId="root"-->
+<!--                password="9527">-->
+<!--        </jdbcConnection>-->
+        <!-- 非必需，类型处理器，在数据库类型和java类型之间的转换控制-->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!--配置生成的实体包
+            targetPackage：生成的实体包位置，默认存放在src目录下
+            targetProject：目标工程名
+         -->
+        <javaModelGenerator targetPackage="com.tsang.greenwork.model"
+                            targetProject="src/main/java" >
+            <!-- 是否允许子包，即targetPackage.schemaName.tableName -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 是否对model添加 构造函数 -->
+            <!--<property name="constructorBased" value="true"/>-->
+            <property name="constructorBased" value="false"/>
+            <!-- 是否对类CHAR类型的列的数据进行trim操作 -->
+            <property name="trimStrings" value="true"/>
+            <!-- 建立的Model对象是否 不可改变  即生成的Model对象不会有 setter方法，只有构造方法 -->
+            <!-- <property name="immutable" value="false"/>-->
+            <property name="immutable" value="true"/>
+
+
+    </javaModelGenerator>
+
+        <!-- 实体包对应映射文件位置及名称，默认存放在src目录下 -->
+        <sqlMapGenerator targetPackage="com.tsang.greenwork.mapper" targetProject="src/main/java" />
+
+        <!-- targetProject：mapper接口生成的的位置 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.tsang.greenwork.mapper"  targetProject="src/main/java">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false" />
+        </javaClientGenerator>
+
+        <!-- 配置表
+            schema：不用填写
+            tableName: 表名
+            enableCountByExample、enableSelectByExample、enableDeleteByExample、enableUpdateByExample、selectByExampleQueryId：
+            去除自动生成的例子
+        -->
+        <table tableName="avgmach" enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true" selectByExampleQueryId="true" >
+        </table>
+        <table tableName="avgws" enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true" selectByExampleQueryId="true" >
+        </table>
+        <table tableName="elefee" enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true" selectByExampleQueryId="true" >
+        </table>
+        <table tableName="machinfor" enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true" selectByExampleQueryId="true" >
+        </table>
+        <table tableName="machruntime" enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true" selectByExampleQueryId="true" >
+        </table>
+        <table tableName="user" enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true" selectByExampleQueryId="true" >
+        </table>
+        <table tableName="wsenvinfor" enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true" selectByExampleQueryId="true" >
+        </table>
+        <table tableName="wsinfor" enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true" selectByExampleQueryId="true" >
+        </table>
+        <table tableName="log" enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true" selectByExampleQueryId="true" >
+        </table>
+        <table tableName="envequip" enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true" selectByExampleQueryId="true" >
+        </table>
+        <table tableName="standard" enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true" selectByExampleQueryId="true" >
+        </table>
+    </context>
+
+</generatorConfiguration>
