@@ -6,7 +6,6 @@ import com.tsang.greenwork.server.NettyTcpServer;
 import com.tsang.greenwork.server.ServerChannelHandler;
 import com.tsang.greenwork.service.impl.EnvEquipImpl;
 import com.tsang.greenwork.service.impl.WsInforServiceImpl;
-import io.netty.channel.ChannelFuture;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -28,6 +27,7 @@ public class GreenworkApplication implements CommandLineRunner {
     public static void main(String[] args) {
         SpringApplication.run(GreenworkApplication.class, args);
     }
+
     @Autowired
     NettyTcpServer nettyTcpServer;
     @Autowired
@@ -40,8 +40,9 @@ public class GreenworkApplication implements CommandLineRunner {
     EnvEquipController envEquipController;
     @Autowired
     ServerChannelHandler serverChannelHandler;
+
     @Override
-    public void run(String... args) throws Exception{
+    public void run(String... args) throws Exception {
         //启动定时器 每天格式化车间修复状态
 //        wsInforService.updateUnfixStatus();
 

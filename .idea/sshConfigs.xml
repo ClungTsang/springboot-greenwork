@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="134.175.221.206" id="ef8cb355-3cfe-4ff6-851b-f466fd156353" port="22" customName="test" nameFormat="CUSTOM" />
+      <sshConfig authType="PASSWORD" host="134.175.221.206" id="185ff949-f983-4675-8661-c088a5f865a5" port="22" customName="test" nameFormat="CUSTOM" />
+      <sshConfig authType="PASSWORD" host="134.175.221.206" id="1f651989-9f0b-4069-a941-f68bbab12b0c" port="22" customName="test" nameFormat="CUSTOM" />
+      <sshConfig authType="PASSWORD" host="134.175.221.206" id="9062f5e1-b982-4c62-a26f-014929afe340" port="22" customName="test" nameFormat="CUSTOM" />
+      <sshConfig authType="PASSWORD" host="134.175.221.206" id="c3a91e49-8cf6-4260-8fec-7943c7b0c632" port="22" customName="test" nameFormat="CUSTOM" />
+      <sshConfig authType="PASSWORD" host="134.175.221.206" id="dffe75f6-73f4-42d1-a5d0-73b3a1018a49" port="22" customName="test" nameFormat="CUSTOM" />
+      <sshConfig authType="PASSWORD" host="134.175.221.206" id="3a674280-dedc-442d-83f1-f8f55f18a8aa" port="22" customName="test" nameFormat="CUSTOM" />
+    </configs>
+  </component>
+</project>

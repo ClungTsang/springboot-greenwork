@@ -106,4 +106,29 @@ create table wsinfor
 )
     comment '车间信息表' charset = ascii;
 
+INSERT INTO greenwork.elefee (rangee, fee) VALUES ('high', 1.114);
+INSERT INTO greenwork.elefee (rangee, fee) VALUES ('low', 0.333);
+INSERT INTO greenwork.elefee (rangee, fee) VALUES ('normal', 0.685);
+
+INSERT INTO greenwork.envequip (workshopid, warn, warnstatus, fan, fanstatus, light, lightstatus, fee) VALUES ('ws001', 'wa001', '2', 'fa001', '2', 'la001', '2', null);
+INSERT INTO greenwork.envequip (workshopid, warn, warnstatus, fan, fanstatus, light, lightstatus, fee) VALUES ('ws002', 'wa002', '2', 'fa002', '2', 'lg002', '2', null);
+INSERT INTO greenwork.envequip (workshopid, warn, warnstatus, fan, fanstatus, light, lightstatus, fee) VALUES ('ws003', 'wa003', '2', 'fa003', '2', 'lg003', '2', null);
+INSERT INTO greenwork.envequip (workshopid, warn, warnstatus, fan, fanstatus, light, lightstatus, fee) VALUES ('ws004', 'wa004', '2', 'fa004', '2', 'lg004', '2', null);
+INSERT INTO greenwork.envequip (workshopid, warn, warnstatus, fan, fanstatus, light, lightstatus, fee) VALUES ('ws005', 'wa005', '2', 'fa005', '2', 'lg005', '2', null);
+INSERT INTO greenwork.envequip (workshopid, warn, warnstatus, fan, fanstatus, light, lightstatus, fee) VALUES ('ws006', 'wa006', '2', 'fa006', '2', 'lg006', '2', null);
+INSERT INTO greenwork.envequip (workshopid, warn, warnstatus, fan, fanstatus, light, lightstatus, fee) VALUES ('ws007', 'wa007', '2', 'fa007', '2', 'lg007', '2', null);
+INSERT INTO greenwork.envequip (workshopid, warn, warnstatus, fan, fanstatus, light, lightstatus, fee) VALUES ('ws008', 'wa008', '2', 'fa008', '2', 'lg008', '2', null);
+INSERT INTO greenwork.envequip (workshopid, warn, warnstatus, fan, fanstatus, light, lightstatus, fee) VALUES ('ws009', 'wa009', '2', 'fa009', '2', 'lg009', '2', null);
+
+INSERT INTO greenwork.standard (name, low, hight) VALUES ('humidity', '20', '80');
+INSERT INTO greenwork.standard (name, low, hight) VALUES ('pm10', '10', '20');
+INSERT INTO greenwork.standard (name, low, hight) VALUES ('pm1_0', '10', '20');
+INSERT INTO greenwork.standard (name, low, hight) VALUES ('pm2_5', '20', '115');
+INSERT INTO greenwork.standard (name, low, hight) VALUES ('temperature', '20', '40');
+
+INSERT INTO greenwork.user (telephone, username, account, password, job, hiredate, phonemac, checkin, checked, machineid, workshopid) VALUES ('13544292818', '姚鹏飞', 'Neal', '123456', '管理人员', '2019-05-27 16:57:14', '01-00-5e-00-00-02', '6', '通过审核', 'ma202', 'ws002');
+INSERT INTO greenwork.user (telephone, username, account, password, job, hiredate, phonemac, checkin, checked, machineid, workshopid) VALUES ('13645926794', '刘德华', 'ldh', '1234', '生产人员', '2019-06-17 10:46:18', 'e3:r4:t5:y6:u7:i8', '0', '通过审核', 'ma202', 'ws002');
+INSERT INTO greenwork.user (telephone, username, account, password, job, hiredate, phonemac, checkin, checked, machineid, workshopid) VALUES ('15916865266', '梁锦明', 'kimminh', '123', '管理人员', '2019-05-28 01:04:09', 'ff-ff-ff-ff-ff-ff', '8', '通过审核', '123', 'ws001');
+INSERT INTO greenwork.user (telephone, username, account, password, job, hiredate, phonemac, checkin, checked, machineid, workshopid) VALUES ('18680271761', '曾楚龙', 'ClungTsang', '9527', '管理人员', '2019-05-30 15:16:19', 'e3:r4:t5:y6:u7:i8', '17', '通过审核', null, null);
+INSERT INTO greenwork.user (telephone, username, account, password, job, hiredate, phonemac, checkin, checked, machineid, workshopid) VALUES ('19925356666', '李华', 'lihua', '123456', '生产人员', '2019-06-17 14:32:45', 'e3:r4:t5:y6:u7:i8', '0', '通过审核', 'ma303', 'ws003');
 

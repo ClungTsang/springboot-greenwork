@@ -13,7 +13,7 @@ spring:
     maxIdle: 20
     #连接池的最大数据库连接数
     maxActive: -1
-    #控制一个pool可分配多少个jedis实例,用来替换上面的maxActive
+    #控制一个pool可分配多少个redis实例,用来替换上面的maxActive
     maxTotal: 100
     #最大建立连接等待时间。如果超过此时间将接到异常
     maxWaitMillis: 100
@@ -111,3 +111,10 @@ DO:
   FullData:
     read: 110103000100141405
 
+---
+student:
+  info:
+    name: 曾楚龙
+    no: 1801010601
+    classname: 18软件技术3-1
+    score: 100

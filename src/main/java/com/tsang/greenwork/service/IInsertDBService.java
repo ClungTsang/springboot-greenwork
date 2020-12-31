@@ -8,7 +8,7 @@ public interface IInsertDBService {
      * @param tcpNum
      * @return
      */
-    ServerResponse simulation_InsertDB(String tcpNum);
+    ServerResponse simulationInsertDB(String tcpNum);
 
 
     String dtuDataInsertDB(String tcpNum);

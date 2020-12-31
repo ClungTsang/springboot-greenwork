@@ -40,7 +40,7 @@ public class InsertDBServiceImpl implements IInsertDBService {
     private String shutLight;
 
     @Override
-    public ServerResponse simulation_InsertDB(String tcpNum){
+    public ServerResponse simulationInsertDB(String tcpNum){
         Map<String,Object> map = iNumTransService.simulationTranslate(tcpNum);
         Set key = map.keySet();
         Iterator<String> it = key.iterator();
