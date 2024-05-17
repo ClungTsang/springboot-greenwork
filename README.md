@@ -11,8 +11,3 @@
 ## 3、mybatis逆向工程
 ### personal-generator.xml中填写mybatis逆向工程的相关配置，在左侧Maven菜单双击mybatis-generator:generate
 ## 4、banner.txt中可以自定义启动界面
-### GUJIAYUN
-## after:
-# 12月12日是个特别的日子 人工湖的告白
-## end:
-# 希望日后的开发 有猫 有面包 有你
